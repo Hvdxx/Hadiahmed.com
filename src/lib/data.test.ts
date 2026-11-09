@@ -17,6 +17,10 @@ describe('profile', () => {
   it('uses the approved intro word for word', () => {
     expect(profile.intro.trim()).toBe(INTRO);
   });
+  it('keeps skills with commas in their name as one item', () => {
+    expect(profile.skills.technical).toContain('Microsoft Azure (Functions, Application Insights)');
+    expect(profile.skills.technical).toContain('Microsoft Office (Excel, Word, PowerPoint)');
+  });
   it('carries the resume facts', () => {
     expect(profile.education[0].gpa).toBe('3.5');
     expect(profile.experience[0].role).toBe('Flooring Specialist');

@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Contact from '../components/Contact.astro';
+import { profile } from '../lib/data';
+import { url } from '../lib/url';
+const s = profile.skills;
+const skillGroups = [
+  ['Technical', s.technical],
+  ['Certifications', s.certifications],
+  ['Languages', s.languages],
+  ['Interests', s.interests],
+] as const;
+---
+<Base title="About" description={`About ${profile.name}: experience, education, leadership and skills.`}>
+  <PageHead title="About" lede={profile.intro} />
+  <div class="wrap about">
+    <p class="resume"><a class="btn" href={url('resume.pdf')}>Resume (PDF)</a></p>
+
+    <section class="block" aria-labelledby="exp-h">
+      <h2 class="sec" id="exp-h">Experience</h2>
+      {profile.experience.map((x) => (
+        <article class="item">
+          <h3>{x.role}</h3>
+          <p class="where">{x.org} · {x.place} · {x.dates}</p>
+          <ul>{x.bullets.map((b) => <li>{b}</li>)}</ul>
+        </article>
+      ))}
+    </section>
+
+    <section class="block" aria-labelledby="edu-h">
+      <h2 class="sec" id="edu-h">Education</h2>
+      {profile.education.map((x) => (
+        <article class="item">
+          <h3>{x.school}</h3>
+          <p class="where">{x.detail} · {x.dates} · GPA {x.gpa}</p>
+          <p>Coursework: {x.coursework.join(', ')}</p>
+        </article>
+      ))}
+    </section>
+
+    <section class="block" aria-labelledby="lead-h">
+      <h2 class="sec" id="lead-h">Leadership &amp; activities</h2>
+      {profile.leadership.map((x) => (
+        <article class="item">
+          <h3>{x.role}</h3>
+          <p class="where">{x.org} · {x.dates}</p>
+          <ul>{x.bullets.map((b) => <li>{b}</li>)}</ul>
+        </article>
+      ))}
+    </section>
+
+    <section class="block" aria-labelledby="skills-h">
+      <h2 class="sec" id="skills-h">Skills, certifications &amp; interests</h2>
+      <dl class="skills">
+        {skillGroups.map(([name, items]) => (
+          <div><dt>{name}</dt><dd><ul class="chips">{items.map((i) => <li class="chip">{i}</li>)}</ul></dd></div>
+        ))}
+      </dl>
+    </section>
+  </div>
+  <Contact />
+</Base>
+<style>
+  .resume { margin: 22px 0 0; }
+  .item { padding: 18px 0; border-top: 1px solid var(--line); max-width: 760px; }
+  .item h3 { margin: 0; font-size: 1.2rem; }
+  .where { margin: 4px 0 10px; font: 400 0.85rem var(--mono); color: var(--muted); }
+  .item ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+  .item p { margin: 0; }
+  .skills { margin: 0; display: grid; gap: 16px; }
+  .skills > div { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 10px; align-items: start; }
+  dt { font: 500 0.8rem var(--mono); color: var(--muted); padding-top: 6px; }
+  dd { margin: 0; }
+  @media (max-width: 640px) { .skills > div { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { url } from '../lib/url';
+---
+<Base title="Page not found" noindex>
+  <PageHead title="That page doesn't exist." lede="It may have moved, or the link has a typo." />
+  <p class="wrap links"><a class="btn" href={url('')}>Go home</a> <a href={url('entries')}>See every entry</a></p>
+</Base>
+<style>.links { display: flex; gap: 20px; align-items: center; margin-top: 24px; }</style>

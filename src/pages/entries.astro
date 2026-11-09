@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import EntryIndex from '../components/EntryIndex.astro';
+import { publishedEntries } from '../lib/entries';
+const entries = publishedEntries(await getCollection('posts'));
+---
+<Base title="Index" description="Everything Hadi has posted: personal notes, writing, projects and work.">
+  <PageHead title="Index" lede="Everything I've posted, newest first. Pick a type to narrow it down." />
+  <EntryIndex entries={entries} filters="links" heading="All entries" />
+</Base>

@@ -1,0 +1,13 @@
+---
+interface Props { title: string; lede?: string }
+const { title, lede } = Astro.props;
+---
+<div class="wrap page-head fade-in">
+  <h1>{title}</h1>
+  {lede && <p>{lede}</p>}
+</div>
+<style>
+  .page-head { padding-top: 26px; }
+  h1 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; }
+  p { margin: 12px 0 0; color: var(--muted); max-width: 60ch; font-size: 1.05rem; }
+</style>

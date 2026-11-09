@@ -18,7 +18,7 @@ const { entries, limit, filters = 'buttons', active, heading = 'Index', id = 'id
 const counts = countsByType(entries);
 const shown = limit ? entries.slice(0, limit) : entries;
 const total = countsByType(entries).all;
-const filterList = [{ id: 'all' as const, label: 'All', path: 'index' }, ...TYPES];
+const filterList = [{ id: 'all' as const, label: 'All', path: 'entries' }, ...TYPES];
 ---
 <section class="block wrap glow left" aria-labelledby={`${id}-h`}>
   <h2 class="sec" id={`${id}-h`}><span>{heading}</span><span aria-hidden="true">Type</span></h2>
@@ -47,7 +47,7 @@ const filterList = [{ id: 'all' as const, label: 'All', path: 'index' }, ...TYPE
     </ul>
   )}
   <p class="idx-live" aria-live="polite">{shown.length === total ? `Showing all ${total} entries` : `Showing ${shown.length} of ${total} entries`}</p>
-  {limit && total > limit && <p class="more"><a href={url('index')}>View all {total} entries</a></p>}
+  {limit && total > limit && <p class="more"><a href={url('entries')}>View all {total} entries</a></p>}
 </section>
 {filters === 'buttons' && <script>import '../scripts/filters';</script>}
 <style>

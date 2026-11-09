@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import EntryIndex from '../components/EntryIndex.astro';
+import { publishedEntries, TYPES, type EntryType } from '../lib/entries';
+
+export function getStaticPaths() {
+  return TYPES.map((t) => ({ params: { type: t.path }, props: { id: t.id, label: t.label } }));
+}
+interface Props { id: EntryType; label: string }
+const { id, label } = Astro.props;
+const all = publishedEntries(await getCollection('posts'));
+const ledes: Record<EntryType, string> = {
+  personal: 'Life outside work and school: photos, places and things I care about.',
+  writing: 'Longer thoughts on technology, business and what I am learning.',
+  project: 'Things I have built and worked through.',
+  work: 'Jobs and roles, and what I do in them.',
+};
+---
+<Base title={label} description={ledes[id]}>
+  <PageHead title={label} lede={ledes[id]} />
+  <EntryIndex entries={all.filter((e) => e.data.type === id)} filters="links" active={id} heading={`${label} entries`} />
+</Base>

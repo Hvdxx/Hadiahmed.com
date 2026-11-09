@@ -36,7 +36,12 @@ education:
     detail: Management Information Systems
     dates: Spring 2022 – Present
     gpa: "3.5"
-    coursework: [Databases, Java, SQL, AI, Python]
+    coursework:
+      - Databases
+      - Java
+      - SQL
+      - AI
+      - Python
 leadership:
   - role: Operations Committee
     org: Management Information Systems Student Organization (MISSO)
@@ -46,7 +51,23 @@ leadership:
       - Help set up and run MISSO events.
       - See technology in business firsthand through case studies, company tours and hands-on sessions.
 skills:
-  technical: [Microsoft Azure (Functions, Application Insights), SQL, Python, Java, Microsoft Office (Excel, Word, PowerPoint), Freelance PC tech]
-  certifications: [Microsoft Word Certificate]
-  languages: [English, Arabic]
-  interests: [Stocks, Soccer, Music, Problem solving, Coding, Technology, Emulation]
+  technical:
+    - Microsoft Azure (Functions, Application Insights)
+    - SQL
+    - Python
+    - Java
+    - Microsoft Office (Excel, Word, PowerPoint)
+    - Freelance PC tech
+  certifications:
+    - Microsoft Word Certificate
+  languages:
+    - English
+    - Arabic
+  interests:
+    - Stocks
+    - Soccer
+    - Music
+    - Problem solving
+    - Coding
+    - Technology
+    - Emulation

@@ -3,7 +3,7 @@ import { url } from '../lib/url';
 import ThemeToggle from './ThemeToggle.astro';
 const path = Astro.url.pathname.replace(/\/$/, '');
 const links = [
-  { href: url('index'), label: '/index' },
+  { href: url('entries'), label: '/index' },
   { href: url('photos'), label: '/photos' },
   { href: url('about'), label: '/about' },
 ];
@@ -17,15 +17,22 @@ const links = [
           <li><a href={l.href} aria-current={path === l.href.replace(/\/$/, '') ? 'page' : undefined}>{l.label}</a></li>
         ))}
         <li><a class="talk" href={url('#contact')}>Let's talk</a></li>
-        <li><ThemeToggle /></li>
       </ul>
     </nav>
+    <div class="tog"><ThemeToggle /></div>
   </div>
 </header>
 <style>
-  .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap; padding-block: 18px; }
+  .bar { display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: 'brand nav tog'; align-items: center; gap: 12px 18px; padding-block: 18px; }
+  .brand { grid-area: brand; }
+  nav { grid-area: nav; justify-self: end; }
+  .tog { grid-area: tog; display: flex; }
   .brand { font: 500 0.92rem var(--mono); text-decoration: none; }
-  @media (max-width: 480px) { ul { gap: 6px 12px; } nav a { font-size: 0.82rem; } nav a.talk { padding: 5px 11px; } }
+  @media (max-width: 600px) {
+    .bar { grid-template-columns: 1fr auto; grid-template-areas: 'brand tog' 'nav nav'; row-gap: 10px; }
+    nav { justify-self: start; }
+    ul { gap: 6px 14px; }
+  }
   ul { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 18px; list-style: none; margin: 0; padding: 0; }
   nav a { font: 400 0.88rem var(--mono); color: var(--muted); text-decoration: none; }
   nav a:hover, nav a[aria-current='page'] { color: var(--fg); }

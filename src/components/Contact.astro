@@ -1,0 +1,69 @@
+---
+import { profile } from '../lib/data';
+import { url } from '../lib/url';
+const c = profile.contact;
+const linkedinHandle = c.linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//, '').replace(/\/$/, '');
+---
+<section class="wrap block" aria-labelledby="contact-h">
+  <div class="contact" id="contact">
+    <div class="top">
+      <div>
+        <h2 id="contact-h">Let's talk</h2>
+        <p>Open to internships, projects, and a good conversation about tech.</p>
+      </div>
+      <a class="btn" href={url('resume.pdf')}>Download resume (PDF)</a>
+    </div>
+    <ul class="ways">
+      <li>
+        <span class="lbl">Email</span>
+        <div class="row"><a class="val" id="c-email" href={`mailto:${c.email}`}>{c.email}</a><button type="button" class="copy" data-copy="c-email" aria-label="Copy email address">Copy</button></div>
+      </li>
+      <li>
+        <span class="lbl">Phone</span>
+        <div class="row"><a class="val" id="c-phone" href={c.phoneHref}>{c.phone}</a><button type="button" class="copy" data-copy="c-phone" aria-label="Copy phone number">Copy</button></div>
+      </li>
+      <li><span class="lbl">LinkedIn</span><a class="val" href={c.linkedin}>{linkedinHandle}</a></li>
+      <li><span class="lbl">Instagram</span><a class="val" href={c.instagram}>{c.instagramHandle}</a></li>
+    </ul>
+  </div>
+</section>
+<script>
+  for (const b of document.querySelectorAll<HTMLButtonElement>('.copy')) {
+    b.addEventListener('click', async () => {
+      const el = document.getElementById(b.dataset.copy!);
+      if (!el) return;
+      try {
+        await navigator.clipboard.writeText(el.textContent ?? '');
+        b.textContent = 'Copied';
+        setTimeout(() => (b.textContent = 'Copy'), 1600);
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = getSelection();
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+      }
+    });
+  }
+</script>
+<style>
+  .contact {
+    scroll-margin-top: 24px;
+    margin-top: 12px; padding: 30px clamp(18px, 3vw, 34px);
+    border: 1px solid var(--line); border-radius: 16px;
+    background: radial-gradient(80% 120% at 0% 0%, var(--glow1), transparent 65%), var(--panel);
+    box-shadow: 0 30px 90px -40px var(--glow-card);
+  }
+  .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 22px; }
+  h2 { margin: 0; font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 700; letter-spacing: -0.02em; }
+  .top p { margin: 6px 0 0; color: var(--muted); }
+  .ways { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; list-style: none; margin: 0; padding: 0; }
+  .ways li { min-width: 0; background: var(--raise); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .lbl { font: 500 0.72rem var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .val { font-weight: 600; overflow-wrap: break-word; min-width: 0; text-decoration: none; }
+  .val:hover { color: var(--t-project); text-decoration: underline; text-underline-offset: 3px; }
+  .copy { font: 500 0.74rem var(--mono); color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 4px 9px; cursor: pointer; flex: none; }
+  .copy:hover { color: var(--fg); border-color: var(--muted); }
+  @media (max-width: 640px) { .ways { grid-template-columns: 1fr; } }
+</style>

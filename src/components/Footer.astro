@@ -1,0 +1,18 @@
+---
+import { url } from '../lib/url';
+import { profile } from '../lib/data';
+---
+<footer class="wrap site-footer">
+  <span>© {new Date().getFullYear()} {profile.name}</span>
+  <span>{profile.location}</span>
+  <a href={url('rss.xml')}>RSS</a>
+</footer>
+<style>
+  .site-footer {
+    margin-top: 56px; padding-block: 26px 34px; border-top: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 26px;
+    font: 400 0.82rem var(--mono); color: var(--muted);
+  }
+  .site-footer a { color: var(--muted); }
+  .site-footer a:hover { color: var(--fg); }
+</style>

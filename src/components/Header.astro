@@ -1,0 +1,39 @@
+---
+import { url } from '../lib/url';
+import ThemeToggle from './ThemeToggle.astro';
+const path = Astro.url.pathname.replace(/\/$/, '');
+const links = [
+  { href: url('index'), label: '/index' },
+  { href: url('photos'), label: '/photos' },
+  { href: url('about'), label: '/about' },
+];
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={url('')}>hadiahmed.com</a>
+    <nav aria-label="Main">
+      <ul>
+        {links.map((l) => (
+          <li><a href={l.href} aria-current={path === l.href.replace(/\/$/, '') ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+        <li><a class="talk" href={url('#contact')}>Let's talk</a></li>
+        <li><ThemeToggle /></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<style>
+  .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap; padding-block: 18px; }
+  .brand { font: 500 0.92rem var(--mono); text-decoration: none; }
+  @media (max-width: 480px) { ul { gap: 6px 12px; } nav a { font-size: 0.82rem; } nav a.talk { padding: 5px 11px; } }
+  ul { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 18px; list-style: none; margin: 0; padding: 0; }
+  nav a { font: 400 0.88rem var(--mono); color: var(--muted); text-decoration: none; }
+  nav a:hover, nav a[aria-current='page'] { color: var(--fg); }
+  nav a[aria-current='page'] { text-decoration: underline; text-underline-offset: 5px; text-decoration-color: var(--t-project); }
+  nav a.talk {
+    font: 600 0.86rem var(--body); color: var(--fg);
+    border: 1px solid var(--t-project); border-radius: 999px; padding: 6px 14px;
+    background: var(--panel); box-shadow: 0 0 24px -6px var(--glow-card);
+  }
+  nav a.talk:hover { background: var(--t-project); color: var(--on-accent); }
+</style>

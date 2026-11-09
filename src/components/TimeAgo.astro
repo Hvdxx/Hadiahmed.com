@@ -1,0 +1,14 @@
+---
+import { formatDate, isoDate, timeAgo } from '../lib/time';
+interface Props { date: Date }
+const { date } = Astro.props;
+const iso = isoDate(date);
+---
+<time datetime={iso}>{formatDate(date)}</time>
+<span data-ago={iso}>{timeAgo(date, new Date())}</span>
+<script>
+  import { timeAgo } from '../lib/time';
+  for (const el of document.querySelectorAll<HTMLElement>('[data-ago]')) {
+    el.textContent = timeAgo(new Date(el.dataset.ago!), new Date());
+  }
+</script>

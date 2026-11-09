@@ -1,0 +1,72 @@
+---
+import TypeTag from './TypeTag.astro';
+import { countsByType, TYPES, type EntryLike, type EntryType } from '../lib/entries';
+import { isoDate } from '../lib/time';
+import { url } from '../lib/url';
+
+interface Props {
+  entries: EntryLike[];
+  /** Show at most this many rows, with a "View all" link */
+  limit?: number;
+  /** "buttons": filter in place (home). "links": each filter is its own page. */
+  filters?: 'buttons' | 'links';
+  active?: EntryType;
+  heading?: string;
+  id?: string;
+}
+const { entries, limit, filters = 'buttons', active, heading = 'Index', id = 'idx' } = Astro.props;
+const counts = countsByType(entries);
+const shown = limit ? entries.slice(0, limit) : entries;
+const total = countsByType(entries).all;
+const filterList = [{ id: 'all' as const, label: 'All', path: 'index' }, ...TYPES];
+---
+<section class="block wrap glow left" aria-labelledby={`${id}-h`}>
+  <h2 class="sec" id={`${id}-h`}><span>{heading}</span><span aria-hidden="true">Type</span></h2>
+  <div class="filters" data-filters={filters === 'buttons' ? `${id}-list` : undefined} aria-label="Filter by type">
+    {filterList.map((f) => (
+      <a
+        href={url(f.path)}
+        data-f={f.id}
+        aria-current={(active ? active === f.id : filters === 'links' && f.id === 'all') ? 'page' : undefined}
+      >
+        <span class="f-label">{f.label}</span> <span class="n">{f.id === 'all' ? counts.all : counts[f.id]}</span>
+      </a>
+    ))}
+  </div>
+  {shown.length === 0 ? (
+    <p class="empty">Nothing here yet.</p>
+  ) : (
+    <ul class="idx" id={`${id}-list`}>
+      {shown.map((e) => (
+        <li data-type={e.data.type}>
+          <time datetime={isoDate(e.data.date)}>{isoDate(e.data.date).replaceAll('-', '.')}</time>
+          <a href={url(`posts/${e.id}`)}>{e.data.title}</a>
+          <TypeTag type={e.data.type} />
+        </li>
+      ))}
+    </ul>
+  )}
+  <p class="idx-live" aria-live="polite">{shown.length === total ? `Showing all ${total} entries` : `Showing ${shown.length} of ${total} entries`}</p>
+  {limit && total > limit && <p class="more"><a href={url('index')}>View all {total} entries</a></p>}
+</section>
+{filters === 'buttons' && <script>import '../scripts/filters';</script>}
+<style>
+  .n { opacity: 0.75; }
+  .idx { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--fg); }
+  .idx li {
+    display: grid; grid-template-columns: 6.6rem minmax(0, 1fr) 7rem; gap: 14px; align-items: baseline;
+    padding: 13px 0; border-bottom: 1px solid var(--line);
+  }
+  .idx li[hidden] { display: none; }
+  time { font: 400 0.84rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .idx a { font-weight: 600; text-decoration: none; }
+  .idx a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .idx :global(.tag) { justify-self: end; }
+  .idx-live, .more, .empty { font: 400 0.8rem var(--mono); color: var(--muted); margin: 10px 0 0; }
+  .empty { font-size: 0.95rem; padding: 18px 0; border-top: 2px solid var(--fg); }
+  .more a { color: var(--fg); }
+  @media (max-width: 640px) {
+    .idx li { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
+    .idx time { grid-column: 1 / -1; }
+  }
+</style>

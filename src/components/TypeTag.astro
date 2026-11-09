@@ -1,0 +1,6 @@
+---
+import { typeInfo, type EntryType } from '../lib/entries';
+interface Props { type: EntryType }
+const { type } = Astro.props;
+---
+<span class={`tag ${type}`}>{typeInfo(type).label}</span>

@@ -1,3 +1,26 @@
 ---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Featured from '../components/Featured.astro';
+import EntryIndex from '../components/EntryIndex.astro';
+import PhotoGrid from '../components/PhotoGrid.astro';
+import Contact from '../components/Contact.astro';
+import { featured, publishedEntries } from '../lib/entries';
+import { photos } from '../lib/data';
+import { url } from '../lib/url';
+
+const entries = publishedEntries(await getCollection('posts'));
+const latest = featured(entries);
+const gridPhotos = photos.filter((p) => p.featured).slice(0, 4);
 ---
-<html lang="en"><head><meta charset="utf-8"><title>Hadi Ahmed</title></head><body><h1>Hadi Ahmed</h1></body></html>
+<Base>
+  <Hero />
+  {latest && <Featured entry={latest} />}
+  <EntryIndex entries={entries} limit={8} filters="buttons" />
+  <section class="block wrap glow" aria-labelledby="photos-h">
+    <h2 class="sec" id="photos-h"><span>Photos · Houston</span><a href={url('photos')}>View all</a></h2>
+    <PhotoGrid photos={gridPhotos} />
+  </section>
+  <Contact />
+</Base>

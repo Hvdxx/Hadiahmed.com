@@ -25,16 +25,22 @@ const linkedinHandle = c.linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com\/in
       <li><span class="lbl">LinkedIn</span><a class="val" href={c.linkedin}>{linkedinHandle}</a></li>
       <li><span class="lbl">Instagram</span><a class="val" href={c.instagram}>{c.instagramHandle}</a></li>
     </ul>
+    <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
   </div>
 </section>
 <script>
+  const status = document.getElementById('copy-status');
+  const what: Record<string, string> = { 'c-email': 'Email address', 'c-phone': 'Phone number' };
   for (const b of document.querySelectorAll<HTMLButtonElement>('.copy')) {
     b.addEventListener('click', async () => {
-      const el = document.getElementById(b.dataset.copy!);
+      const id = b.dataset.copy!;
+      const el = document.getElementById(id);
       if (!el) return;
+      if (status) status.textContent = '';
       try {
         await navigator.clipboard.writeText(el.textContent ?? '');
         b.textContent = 'Copied';
+        if (status) status.textContent = `${what[id]} copied`;
         setTimeout(() => (b.textContent = 'Copy'), 1600);
       } catch {
         const range = document.createRange();
@@ -42,6 +48,7 @@ const linkedinHandle = c.linkedin.replace(/^https?:\/\/(www\.)?linkedin\.com\/in
         const sel = getSelection();
         sel?.removeAllRanges();
         sel?.addRange(range);
+        if (status) status.textContent = `Couldn't copy automatically. The ${what[id].toLowerCase()} is selected, so you can copy it yourself.`;
       }
     });
   }

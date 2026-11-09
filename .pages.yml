@@ -3,6 +3,7 @@
 media:
   input: src/assets/images
   output: ../../assets/images
+  extensions: [jpg, jpeg, png, webp, avif]
 
 content:
   - name: posts

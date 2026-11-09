@@ -46,6 +46,9 @@ jobs:
         env:
           CI: 'true'
 
+      - name: Build site for deploy
+        run: npm run build
+
       - name: Upload site
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3

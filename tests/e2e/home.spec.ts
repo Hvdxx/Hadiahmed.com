@@ -81,3 +81,13 @@ test.describe('home page', () => {
     await expect(page.locator(':focus')).toHaveText('Skip to content');
   });
 });
+
+test('copy buttons announce the result to screen readers', async ({ browser }) => {
+  const ctx = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
+  const page = await ctx.newPage();
+  await page.goto('./');
+  await page.getByRole('button', { name: 'Copy email address' }).click();
+  await expect(page.locator('#copy-status')).toHaveText('Email address copied');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('Hadiahmed350@gmail.com');
+  await ctx.close();
+});

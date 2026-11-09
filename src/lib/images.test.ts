@@ -12,3 +12,9 @@ describe('imageByName', () => {
     expect(() => imageByName('nope.webp')).toThrow('Image not found in src/assets/images: nope.webp');
   });
 });
+
+describe('imageByName and uppercase file names', () => {
+  it('matches names regardless of letter case', () => {
+    expect(imageByName('PORTRAIT.WEBP').width).toBe(684);
+  });
+});

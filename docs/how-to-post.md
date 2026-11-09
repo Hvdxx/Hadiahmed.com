@@ -4,7 +4,7 @@ You can post three ways. The editor is the easiest.
 
 ## 1. The editor (recommended)
 
-1. Go to **hadiahmed.com/admin** (or straight to **app.pagescms.org**).
+1. Go to **hvdxx.github.io/hadiahmed.com/admin** (or straight to **app.pagescms.org**). Once you connect your own domain, this becomes hadiahmed.com/admin.
 2. Sign in with your GitHub account. The first time, it asks for permission to access your repositories. Allow it for `hvdxx/hadiahmed.com`.
 3. Pick **hvdxx/hadiahmed.com**.
 4. Click **Entries**, then **Add an entry**.

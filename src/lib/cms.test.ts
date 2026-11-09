@@ -8,6 +8,16 @@ const cfg = load(readFileSync('.pages.yml', 'utf8')) as { media: { input: string
 const byName = (n: string) => cfg.content.find((c) => c.name === n)!;
 
 describe('Pages CMS config', () => {
+  it('only accepts photo formats the site can process', () => {
+    expect((cfg.media as { extensions?: string[] }).extensions).toEqual(['jpg', 'jpeg', 'png', 'webp', 'avif']);
+  });
+
+  it('points the guide at the address that works today', () => {
+    const guide = readFileSync('docs/how-to-post.md', 'utf8');
+    expect(guide).toContain('hvdxx.github.io/hadiahmed.com/admin');
+    expect(guide).not.toMatch(/\*\*hadiahmed\.com\/admin\*\*/);
+  });
+
   it('stores uploads with the other images', () => {
     expect(cfg.media.input).toBe('src/assets/images');
     expect(cfg.media.output).toBe('../../assets/images');

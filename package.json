@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:e2e": "playwright test --trace off",
     "check:all": "npm test && npm run build && npm run test:e2e",
-    "test:drafts": "node tests/fixtures/add-draft.mjs && npx astro build && E2E_DRAFT_CHECK=1 npx playwright test integrity --trace off; s=$?; node tests/fixtures/remove-draft.mjs; npx astro build >/dev/null; exit $s"
+    "test:drafts": "node tests/fixtures/add-draft.mjs && npx astro build && E2E_DRAFT_CHECK=1 npx playwright test integrity --trace off; s=$?; node tests/fixtures/remove-draft.mjs; npx astro build >/dev/null || s=1; exit $s"
   },
   "engines": {
     "node": ">=22"

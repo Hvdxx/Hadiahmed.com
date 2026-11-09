@@ -1,4 +1,6 @@
 // Turns the type links above an index into in-page filter buttons.
+import { filterRows } from './filter-logic';
+
 for (const box of document.querySelectorAll<HTMLElement>('[data-filters]')) {
   const list = document.getElementById(box.dataset.filters!);
   const live = box.parentElement?.querySelector<HTMLElement>('.idx-live');
@@ -20,15 +22,15 @@ for (const box of document.querySelectorAll<HTMLElement>('[data-filters]')) {
   for (const btn of buttons) {
     btn.addEventListener('click', () => {
       const f = btn.dataset.f!;
-      let n = 0;
-      for (const r of rows) {
-        const show = f === 'all' || r.dataset.type === f;
-        r.hidden = !show;
-        if (show) n++;
-      }
-      for (const b of buttons) b.setAttribute('aria-pressed', String(b === btn));
       const name = btn.querySelector('.f-label')?.textContent ?? '';
-      if (live) live.textContent = f === 'all' ? `Showing all ${n} entries` : `Showing ${n} ${name} ${n === 1 ? 'entry' : 'entries'}`;
+      const { show, message } = filterRows(
+        rows.map((r) => ({ type: r.dataset.type!, extra: 'extra' in r.dataset })),
+        f,
+        name,
+      );
+      rows.forEach((r, i) => (r.hidden = !show[i]));
+      for (const b of buttons) b.setAttribute('aria-pressed', String(b === btn));
+      if (live) live.textContent = message;
     });
   }
 }

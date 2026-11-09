@@ -16,7 +16,7 @@ interface Props {
 }
 const { entries, limit, filters = 'buttons', active, heading = 'Index', id = 'idx' } = Astro.props;
 const counts = countsByType(entries);
-const shown = limit ? entries.slice(0, limit) : entries;
+const visible = limit ? Math.min(limit, entries.length) : entries.length;
 const total = countsByType(entries).all;
 const filterList = [{ id: 'all' as const, label: 'All', path: 'entries' }, ...TYPES];
 ---
@@ -33,12 +33,12 @@ const filterList = [{ id: 'all' as const, label: 'All', path: 'entries' }, ...TY
       </a>
     ))}
   </div>
-  {shown.length === 0 ? (
+  {entries.length === 0 ? (
     <p class="empty">Nothing here yet.</p>
   ) : (
     <ul class="idx" id={`${id}-list`}>
-      {shown.map((e) => (
-        <li data-type={e.data.type}>
+      {entries.map((e, i) => (
+        <li data-type={e.data.type} data-extra={i >= visible ? '' : undefined} hidden={i >= visible}>
           <time datetime={isoDate(e.data.date)}>{isoDate(e.data.date).replaceAll('-', '.')}</time>
           <a href={url(`posts/${e.id}`)}>{e.data.title}</a>
           <TypeTag type={e.data.type} />
@@ -46,7 +46,7 @@ const filterList = [{ id: 'all' as const, label: 'All', path: 'entries' }, ...TY
       ))}
     </ul>
   )}
-  <p class="idx-live" aria-live="polite">{shown.length === total ? `Showing all ${total} entries` : `Showing ${shown.length} of ${total} entries`}</p>
+  <p class="idx-live" aria-live="polite">{visible === total ? `Showing all ${total} entries` : `Showing ${visible} of ${total} entries`}</p>
   {limit && total > limit && <p class="more"><a href={url('entries')}>View all {total} entries</a></p>}
 </section>
 {filters === 'buttons' && <script>import '../scripts/filters';</script>}

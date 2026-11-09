@@ -1,0 +1,32 @@
+{
+  "name": "hadiahmed.com",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
+    "test:e2e": "playwright test --trace off",
+    "check:all": "npm test && npm run build && npm run test:e2e"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "astro": "5.18.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "1.63.0",
+    "js-yaml": "^5.5.0",
+    "typescript": "^5.9.3",
+    "vitest": "3.2.4"
+  }
+}

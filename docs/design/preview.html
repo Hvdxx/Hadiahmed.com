@@ -1,0 +1,291 @@
+<title>hadiahmed.com Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: review sheet around one framed mockup. Mockup = B's log feel + A's short typed index + C's featured latest post. Type colors carry meaning. */
+:root {
+  --bg:#f4f5f7; --surface:#ffffff; --fg:#16181d; --muted:#5a606b; --line:#d9dce2; --focus:#2457d6;
+  --ui:'Public Sans', system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#121418; --surface:#1b1e24; --fg:#eceef2; --muted:#a3a9b4; --line:#30343c; --focus:#8ab0ff; color-scheme:dark } }
+:root[data-theme="dark"] { --bg:#121418; --surface:#1b1e24; --fg:#eceef2; --muted:#a3a9b4; --line:#30343c; --focus:#8ab0ff; color-scheme:dark }
+
+*,*::before,*::after { box-sizing:border-box }
+body { background:var(--bg); color:var(--fg); font:16px/1.55 var(--ui); padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); padding-block:40px 72px }
+img { max-width:100%; display:block }
+:focus-visible { outline:2px solid var(--focus); outline-offset:3px }
+.sheet { max-width:1120px; margin:0 auto; display:flex; flex-direction:column; gap:20px }
+.intro h1 { font-size:clamp(1.6rem,3.4vw,2.2rem); margin:0 0 10px; text-wrap:balance; letter-spacing:-.01em }
+.intro p { margin:0; color:var(--muted); max-width:66ch }
+.intro p + p { margin-top:8px }
+.bar { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; margin-top:12px }
+.bar h2 { margin:0; font-size:1.2rem }
+.mode { display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:3px; background:var(--surface) }
+.mode button { font:500 .85rem var(--ui); color:var(--muted); background:none; border:0; border-radius:999px; padding:6px 14px; cursor:pointer }
+.mode button[aria-pressed="true"] { background:var(--fg); color:var(--bg) }
+.frame { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface) }
+.chrome { display:flex; align-items:center; gap:8px; padding:9px 14px; border-bottom:1px solid var(--line); font:.78rem var(--ui); color:var(--muted) }
+.chrome i { width:9px; height:9px; border-radius:50%; background:var(--line); display:block }
+.chrome b { font-weight:500; margin-left:8px }
+.notes { margin:8px 0 0; padding:0 0 0 1.1em; color:var(--muted); font-size:.95rem; display:flex; flex-direction:column; gap:6px; max-width:80ch }
+.notes strong { color:var(--fg) }
+
+/* ---------- Mockup ---------- */
+.m { --m-bg:#0c1726; --m-panel:#13223a; --m-raise:#182b47; --m-fg:#eaf1f9; --m-muted:#9fb0c6; --m-line:#24395a;
+  --t-project:#7cc4fa; --t-writing:#ffc266; --t-work:#6fdcae; --t-personal:#ff9a9a;
+  --glow1:rgba(84,166,255,.34); --glow2:rgba(255,154,154,.10); --glow3:rgba(84,166,255,.16); --glow-card:rgba(84,166,255,.30);
+  --body:'IBM Plex Sans', system-ui, sans-serif; --mono:'IBM Plex Mono', ui-monospace, monospace;
+  color:var(--m-fg); font-family:var(--body);
+  background:
+    radial-gradient(42% 14% at 92% 30%, var(--glow3), transparent 72%),
+    radial-gradient(48% 14% at 4% 55%, var(--glow3), transparent 72%),
+    radial-gradient(46% 12% at 96% 76%, var(--glow3), transparent 72%),
+    radial-gradient(70% 12% at 50% 100%, var(--glow1), transparent 75%),
+    var(--m-bg) }
+/* Light = soft ~4000K white: neutral-warm paper, never pure white; warm lamplight glow with a faint blue echo of the dark theme */
+.m[data-mode="light"] { --m-bg:#f7f3ec; --m-panel:#fcfaf6; --m-raise:#f0ebe2; --m-fg:#16202c; --m-muted:#5b5f63; --m-line:#e2dbcf;
+  --t-project:#0b5c9c; --t-writing:#8a5200; --t-work:#166e49; --t-personal:#a92f3a;
+  --glow1:rgba(255,196,128,.34); --glow2:rgba(40,120,230,.07); --glow3:rgba(255,204,150,.22); --glow-card:rgba(140,100,50,.20) }
+.m .pad { padding-left:clamp(18px,4vw,48px); padding-right:clamp(18px,4vw,48px) }
+.m nav { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font:.84rem var(--mono); color:var(--m-muted); padding-top:20px }
+.m nav b { color:var(--m-fg); font-weight:500 }
+.m nav ul { display:flex; gap:18px; list-style:none; margin:0; padding:0; flex-wrap:wrap }
+.m nav a { color:inherit; text-decoration:none } .m nav a:hover { color:var(--t-project) }
+.m nav ul { align-items:center }
+.m nav a.talk { font:600 .84rem var(--body); color:var(--m-fg); border:1px solid var(--t-project); border-radius:999px; padding:6px 14px; background:var(--m-panel); box-shadow:0 0 24px -6px var(--glow-card) }
+.m nav a.talk:hover { background:var(--t-project); color:var(--m-bg) }
+
+.m .hero { background:radial-gradient(75% 110% at 10% 0%, var(--glow1), transparent 70%), radial-gradient(45% 70% at 70% 30%, var(--glow3), transparent 70%), radial-gradient(50% 80% at 98% 100%, var(--glow2), transparent 70%); padding-bottom:40px; border-bottom:1px solid var(--m-line) }
+.m .hero-in { display:grid; grid-template-columns:minmax(0,260px) minmax(0,1fr); gap:clamp(20px,4vw,44px); align-items:center; padding-top:36px }
+.m .hero img { box-shadow:0 24px 70px -24px var(--glow-card); width:100%; aspect-ratio:4/5; object-fit:cover; object-position:50% 18%; border-radius:10px; border:1px solid var(--m-line) }
+.m .hero h3 { margin:0; font-size:clamp(2.2rem,6vw,3.6rem); font-weight:700; letter-spacing:-.025em; line-height:1 }
+.m .hero p { margin:14px 0 18px; color:var(--m-muted); max-width:54ch; font-size:1.05rem }
+.m .chips { display:flex; flex-wrap:wrap; gap:8px }
+.m .chip { font:.78rem var(--mono); border:1px solid var(--m-line); background:var(--m-panel); border-radius:6px; padding:5px 10px; color:var(--m-muted) }
+.m .chip .dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--t-work); margin-right:7px }
+
+.m h4.sec { font:500 .78rem var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--m-muted); margin:0 0 14px; display:flex; justify-content:space-between; gap:12px }
+.m section.blk { padding-top:36px }
+
+/* type tag */
+.tag { font:500 .7rem var(--mono); text-transform:uppercase; letter-spacing:.07em; display:inline-flex; align-items:center; gap:6px; color:var(--c) }
+.tag::before { content:""; width:8px; height:8px; border-radius:2px; background:var(--c) }
+.tag.project { --c:var(--t-project) } .tag.writing { --c:var(--t-writing) } .tag.work { --c:var(--t-work) } .tag.personal { --c:var(--t-personal) }
+
+/* latest */
+.m .latest { box-shadow:0 30px 80px -30px var(--glow-card); display:grid; grid-template-columns:minmax(0,1.45fr) minmax(0,1fr); background:var(--m-panel); border:1px solid var(--m-line); border-radius:12px; overflow:hidden; text-decoration:none; color:inherit }
+.m .latest img { width:100%; height:100%; min-height:300px; object-fit:cover }
+.m .latest .txt { padding:26px 26px 28px; display:flex; flex-direction:column; gap:10px; justify-content:center }
+.m .latest h5 { margin:0; font-size:clamp(1.35rem,2.6vw,1.75rem); line-height:1.2; font-weight:600; letter-spacing:-.01em; text-wrap:balance }
+.m .latest:hover h5 { text-decoration:underline; text-decoration-color:var(--t-writing); text-underline-offset:5px }
+.m .latest p { margin:0; color:var(--m-muted) }
+.m .meta { font:.8rem var(--mono); color:var(--m-muted); display:flex; flex-wrap:wrap; gap:4px 12px; font-variant-numeric:tabular-nums }
+.m .meta .ago { color:var(--m-fg) }
+.m .ex { font:600 .64rem var(--mono); text-transform:uppercase; letter-spacing:.08em; border:1px dashed var(--m-muted); border-radius:4px; padding:1px 5px; color:var(--m-muted); vertical-align:middle }
+
+/* index */
+.m .filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:6px }
+.m .filters button { font:500 .8rem var(--mono); color:var(--m-muted); background:var(--m-panel); border:1px solid var(--m-line); border-radius:999px; padding:6px 13px; cursor:pointer; display:inline-flex; align-items:center; gap:7px }
+.m .filters button span { opacity:.7 }
+.m .filters button[aria-pressed="true"] { color:var(--m-bg); background:var(--m-fg); border-color:var(--m-fg) }
+.m .filters button[data-f]:not([data-f="all"])::before { content:""; width:8px; height:8px; border-radius:2px; background:var(--c) }
+.m .filters button[data-f="project"] { --c:var(--t-project) } .m .filters button[data-f="writing"] { --c:var(--t-writing) } .m .filters button[data-f="work"] { --c:var(--t-work) } .m .filters button[data-f="personal"] { --c:var(--t-personal) }
+.m .idx { list-style:none; margin:0; padding:0; border-top:2px solid var(--m-fg) }
+.m .idx li { display:grid; grid-template-columns:6.2rem minmax(0,1fr) 7rem; gap:14px; align-items:baseline; padding:13px 0; border-bottom:1px solid var(--m-line) }
+.m .idx time { font:.82rem var(--mono); color:var(--m-muted); font-variant-numeric:tabular-nums }
+.m .idx a { color:inherit; text-decoration:none; font-weight:600 }
+.m .idx a:hover { text-decoration:underline; text-underline-offset:4px }
+.m .idx .tag { justify-self:end }
+.m .live { font:.78rem var(--mono); color:var(--m-muted); margin:10px 0 0 }
+
+/* photos */
+.m .photos { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); grid-auto-rows:150px; gap:10px }
+.m .photos figure { box-shadow:0 18px 50px -26px var(--glow-card); margin:0; position:relative; overflow:hidden; border-radius:10px; border:1px solid var(--m-line) }
+.m .photos img { width:100%; height:100%; object-fit:cover; transition:transform .6s ease }
+.m .photos figure:hover img { transform:scale(1.03) }
+.m .photos figcaption { position:absolute; left:0; right:0; bottom:0; padding:22px 12px 9px; font-size:.8rem; color:#fff; background:linear-gradient(transparent, rgba(5,10,18,.78)) }
+.m .p1 { grid-column:span 4; grid-row:span 2 } .m .p2 { grid-column:span 2; grid-row:span 3 } .m .p3 { grid-column:span 2; grid-row:span 1 } .m .p4 { grid-column:span 2; grid-row:span 1 }
+
+.m .links { display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin-top:20px; font:.86rem var(--mono) }
+.m .links a { color:var(--m-fg); text-decoration:none; border-bottom:1px solid var(--m-line); padding-bottom:2px }
+.m .links a:hover { border-color:var(--t-project); color:var(--t-project) }
+.m .btn { display:inline-flex; align-items:center; gap:8px; font:600 .86rem var(--body); color:#06121f !important; background:var(--t-project); border:0 !important; border-radius:8px; padding:9px 16px !important; box-shadow:0 10px 30px -10px var(--glow-card); text-decoration:none }
+.m[data-mode="light"] .btn { color:#fff !important }
+.m .btn:hover { filter:brightness(1.08) }
+.m .contact { margin-top:52px; padding:30px clamp(18px,3vw,32px); border:1px solid var(--m-line); border-radius:14px; background:radial-gradient(80% 120% at 0% 0%, var(--glow1), transparent 65%), var(--m-panel) }
+.m .contact-top { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:end; gap:16px; margin-bottom:22px }
+.m .contact h4 { margin:0; font-size:clamp(1.5rem,3.4vw,2.1rem); font-weight:700; letter-spacing:-.02em }
+.m .contact-top p { margin:6px 0 0; color:var(--m-muted) }
+.m .ways { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; list-style:none; margin:0; padding:0 }
+.m .ways li { min-width:0; background:var(--m-raise); border:1px solid var(--m-line); border-radius:10px; padding:14px 16px; display:flex; flex-direction:column; gap:4px }
+.m .ways .lbl { font:500 .7rem var(--mono); text-transform:uppercase; letter-spacing:.08em; color:var(--m-muted) }
+.m .ways .val { font-weight:600; overflow-wrap:break-word; min-width:0; color:var(--m-fg); text-decoration:none; user-select:all }
+.m .ways a.val:hover { color:var(--t-project); text-decoration:underline; text-underline-offset:3px }
+.m .ways .row { display:flex; justify-content:space-between; align-items:center; gap:10px }
+.m .copy { font:500 .72rem var(--mono); color:var(--m-muted); background:none; border:1px solid var(--m-line); border-radius:6px; padding:3px 8px; cursor:pointer; flex:none }
+.m .copy:hover { color:var(--m-fg); border-color:var(--m-muted) }
+.m footer { padding-block:26px 30px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px 26px; font:.8rem var(--mono); color:var(--m-muted) }
+
+@media (prefers-reduced-motion:reduce) { .m .photos img { transition:none } }
+@media (max-width:760px) {
+  .m .hero-in { grid-template-columns:1fr } .m .hero img { max-width:240px }
+  .m .latest { grid-template-columns:1fr } .m .latest img { min-height:0; aspect-ratio:16/10 }
+  .m .ways { grid-template-columns:1fr }
+  .m .idx li { grid-template-columns:minmax(0,1fr) auto; gap:4px 12px } .m .idx time { grid-column:1 / -1 }
+  .m .photos { grid-template-columns:1fr 1fr; grid-auto-rows:140px } .m .p1 { grid-column:span 2; grid-row:span 2 } .m .p2 { grid-column:span 1; grid-row:span 2 } .m .p3, .m .p4 { grid-column:span 1 }
+}
+</style>
+
+<main class="sheet">
+  <header class="intro">
+    <h1>hadiahmed.com: combined direction</h1>
+    <p>This mixes the three: B's technical look with more color, A's short index, and C's featured latest post. Each post gets a type, Personal, Writing, Project or Work, and each type has its own color. Try the filter buttons above the index.</p>
+    <p>Rows marked <em>example</em> are placeholder posts I made up. Everything else is from your current page.</p>
+    <p>The preview opens in your device's light or dark setting, like the real site will. Use the switch to see the other one.</p>
+  </header>
+
+  <div class="bar">
+    <h2>Home page preview</h2>
+    <div class="mode" role="group" aria-label="Preview color mode"><button type="button" data-m="dark" aria-pressed="true">Dark</button><button type="button" data-m="light" aria-pressed="false">Light</button></div>
+  </div>
+
+  <div class="frame">
+    <div class="chrome" aria-hidden="true"><i></i><i></i><i></i><b>hadiahmed.com</b></div>
+    <div class="m" id="m" data-mode="dark">
+      <div class="hero">
+        <div class="pad">
+          <nav aria-label="Sample site navigation"><b>hadiahmed.com</b><ul><li><a href="#m">/index</a></li><li><a href="#m">/photos</a></li><li><a href="#m">/about</a></li><li><a class="talk" href="#contact">Let's talk</a></li></ul></nav>
+          <div class="hero-in">
+            <img src="assets/portrait.webp" alt="Hadi Ahmed in a black suit and tie, arms crossed, against a gray studio backdrop">
+            <div>
+              <h3>Hadi Ahmed</h3>
+              <p>Hey! I'm Hadi. I'm studying Management Information Systems at the University of Houston, and I want to use technology to help businesses run better and make smarter decisions. I'm looking for a summer internship to take the next step in my career. At The Home Depot I work as a Flooring Specialist, scoping projects, building cost estimates, and turning technical specs into clear recommendations for customers. Outside of work I build with Azure, SQL and Python.</p>
+              <div class="chips"><span class="chip"><span class="dot" aria-hidden="true"></span>Open to summer internships</span><span class="chip">Flooring Specialist · The Home Depot</span><span class="chip">GPA 3.5</span><span class="chip">Sugar Land, TX</span><span class="chip">English · Arabic</span></div>
+              <div class="links"><a class="btn" href="#contact">Resume (PDF)</a><a href="#contact">Email</a><a href="https://linkedin.com/in/hadi-ahmed-mis">LinkedIn</a><a href="https://instagram.com/_hadi.ahmed_">Instagram</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pad">
+        <section class="blk" aria-labelledby="latestH">
+          <h4 class="sec" id="latestH"><span>Latest</span></h4>
+          <a class="latest" href="#m">
+            <img src="assets/fountain-dusk.webp" alt="A bench facing the Hermann Park fountain at golden hour">
+            <div class="txt">
+              <span class="tag personal">Personal</span>
+              <h5>Golden hour at Hermann Park, and why I started shooting again <span class="ex">example</span></h5>
+              <p>A placeholder post showing how the newest entry is featured, with its photo, date and reading time.</p>
+              <div class="meta"><time id="latestDate" datetime="2026-11-04">Nov 4, 2026</time><span class="ago" id="latestAgo">5 days ago</span><span>4 min read</span></div>
+            </div>
+          </a>
+        </section>
+
+        <section class="blk" aria-labelledby="idxH">
+          <h4 class="sec" id="idxH"><span>Index</span><span>Type</span></h4>
+          <div class="filters" role="group" aria-label="Filter index by type">
+            <button type="button" data-f="all" aria-pressed="true">All <span></span></button>
+            <button type="button" data-f="personal" aria-pressed="false">Personal <span></span></button>
+            <button type="button" data-f="writing" aria-pressed="false">Writing <span></span></button>
+            <button type="button" data-f="project" aria-pressed="false">Project <span></span></button>
+            <button type="button" data-f="work" aria-pressed="false">Work <span></span></button>
+          </div>
+          <ul class="idx" id="idx">
+            <li data-type="personal"><time datetime="2026-11-04">2026.11.04</time><a href="#m">Golden hour at Hermann Park <span class="ex">example</span></a><span class="tag personal">Personal</span></li>
+            <li data-type="writing"><time datetime="2026-10-12">2026.10.12</time><a href="#m">What a flooring estimate taught me about requirements <span class="ex">example</span></a><span class="tag writing">Writing</span></li>
+            <li data-type="project"><time datetime="2026-04">2026.04</time><a href="#m">Embedded Device Configuration</a><span class="tag project">Project</span></li>
+            <li data-type="project"><time datetime="2026-03">2026.03</time><a href="#m">Azure Cloud Monitoring Automation</a><span class="tag project">Project</span></li>
+            <li data-type="writing"><time datetime="2026-03-20">2026.03.20</time><a href="#m">Logging infrastructure health without paying for it <span class="ex">example</span></a><span class="tag writing">Writing</span></li>
+            <li data-type="work"><time datetime="2025-01">2025.01</time><a href="#m">MISSO Operations Committee</a><span class="tag work">Work</span></li>
+            <li data-type="project"><time datetime="2024-09">2024.09</time><a href="#m">Gen Z Ethics Competition with KPMG</a><span class="tag project">Project</span></li>
+            <li data-type="work"><time datetime="2024-05">2024.05</time><a href="#m">Flooring Specialist, The Home Depot</a><span class="tag work">Work</span></li>
+          </ul>
+          <p class="live" id="live" aria-live="polite">Showing all 8 entries</p>
+        </section>
+
+        <section class="blk" aria-labelledby="phH">
+          <h4 class="sec" id="phH"><span>Photos · Houston</span><span>View all</span></h4>
+          <div class="photos">
+            <figure class="p1"><img src="assets/stone-lantern.webp" alt="A stone lantern in the Japanese Garden, framed by greenery"><figcaption>Stone lantern · Japanese Garden</figcaption></figure>
+            <figure class="p2"><img src="assets/go-coogs.webp" alt="Hadi and friends celebrating school spirit at the University of Houston"><figcaption>Go Coogs · University of Houston</figcaption></figure>
+            <figure class="p3"><img src="assets/evening-pond.webp" alt="The Hermann Park fountain at dusk with a duck along the shore"><figcaption>Evening at the pond</figcaption></figure>
+            <figure class="p4"><img src="assets/genz-team.webp" alt="Hadi and the Bauer College team outside the John K. Stubblefield Auditorium"><figcaption>Gen Z Ethics team · Bauer</figcaption></figure>
+          </div>
+        </section>
+
+        <section class="contact" id="contact" aria-labelledby="contactH">
+          <div class="contact-top">
+            <div><h4 id="contactH">Let's talk</h4><p>Open to internships, projects, and a good conversation about tech.</p></div>
+            <a class="btn" href="#contact">Download resume (PDF)</a>
+          </div>
+          <ul class="ways">
+            <li><span class="lbl">Email</span><div class="row"><span class="val" id="em">Hadiahmed350@gmail.com</span><button type="button" class="copy" data-copy="em" aria-label="Copy email address">Copy</button></div></li>
+            <li><span class="lbl">Phone</span><div class="row"><span class="val" id="ph">(281) 965-5448</span><button type="button" class="copy" data-copy="ph" aria-label="Copy phone number">Copy</button></div></li>
+            <li><span class="lbl">LinkedIn</span><a class="val" href="https://linkedin.com/in/hadi-ahmed-mis">hadi-ahmed-mis</a></li>
+            <li><span class="lbl">Instagram</span><a class="val" href="https://instagram.com/_hadi.ahmed_">@_hadi.ahmed_</a></li>
+          </ul>
+        </section>
+        <footer><span>© 2026 Hadi Ahmed</span><span>Sugar Land, Texas</span></footer>
+      </div>
+    </div>
+  </div>
+
+  <ul class="notes">
+    <li><strong>Types:</strong> each post's type is one word you set when you write it. The index, filters and colors update on their own.</li>
+    <li><strong>Latest post:</strong> the newest entry is always featured on its own, with its photo, date, how long ago it was posted, and reading time. Reading time is calculated from the word count.</li>
+    <li><strong>Contact:</strong> quick links under your intro, plus a full "Let's talk" section at the bottom. On the live site, Email and Phone open your mail and phone apps, and the resume button downloads your PDF. (They're inactive in this preview.)</li>
+    <li><strong>Bigger images:</strong> a larger portrait, a wide photo for the featured post, and a photo grid where some pictures span two rows.</li>
+  </ul>
+</main>
+
+<script>
+(function () {
+  var m = document.getElementById('m');
+  // Start in the viewer's own light/dark setting, like the real site will
+  var mq = window.matchMedia('(prefers-color-scheme: light)');
+  function setMode(mode) {
+    m.dataset.mode = mode;
+    document.querySelectorAll('.mode button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.m === mode)); });
+  }
+  var rootTheme = document.documentElement.getAttribute('data-theme');
+  setMode(rootTheme === 'light' || rootTheme === 'dark' ? rootTheme : (mq.matches ? 'light' : 'dark'));
+  mq.addEventListener && mq.addEventListener('change', function (e) { setMode(e.matches ? 'light' : 'dark'); });
+  document.querySelectorAll('.mode button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      m.dataset.mode = btn.dataset.m;
+      document.querySelectorAll('.mode button').forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+    });
+  });
+
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#idx li'));
+  var live = document.getElementById('live');
+  var btns = document.querySelectorAll('.filters button');
+  btns.forEach(function (b) {
+    var f = b.dataset.f;
+    b.querySelector('span').textContent = f === 'all' ? rows.length : rows.filter(function (r) { return r.dataset.type === f; }).length;
+    b.addEventListener('click', function () {
+      var n = 0;
+      rows.forEach(function (r) { var show = f === 'all' || r.dataset.type === f; r.hidden = !show; if (show) n++; });
+      btns.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      live.textContent = f === 'all' ? 'Showing all ' + n + ' entries' : 'Showing ' + n + ' ' + b.firstChild.textContent.trim() + ' entries';
+    });
+  });
+
+  document.querySelectorAll('.copy').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = document.getElementById(b.dataset.copy), t = el.textContent;
+      var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1600); };
+      try { navigator.clipboard.writeText(t).then(done, function () { selectText(el); }); } catch (e) { selectText(el); }
+    });
+  });
+  function selectText(el) { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+
+  // "How long ago" from the post date
+  var d = new Date(document.getElementById('latestDate').getAttribute('datetime') + 'T12:00:00');
+  var days = Math.round((Date.now() - d) / 86400000);
+  var txt = days <= 0 ? 'Today' : days === 1 ? 'Yesterday' : days < 30 ? days + ' days ago' : days < 365 ? Math.round(days / 30) + ' months ago' : Math.round(days / 365) + ' years ago';
+  document.getElementById('latestAgo').textContent = txt;
+})();
+</script>

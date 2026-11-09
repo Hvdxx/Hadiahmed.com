@@ -1,0 +1,52 @@
+name: Hadi Ahmed
+tagline: MIS student at the University of Houston
+location: Sugar Land, Texas
+status: Open to summer internships
+intro: >-
+  Hey! I'm Hadi. I'm studying Management Information Systems at the University of Houston,
+  and I want to use technology to help businesses run better and make smarter decisions.
+  I'm looking for a summer internship to take the next step in my career. At The Home Depot
+  I work as a Flooring Specialist, scoping projects, building cost estimates, and turning
+  technical specs into clear recommendations for customers. Outside of work I build with
+  Azure, SQL and Python.
+chips:
+  - Flooring Specialist · The Home Depot
+  - GPA 3.5
+  - Sugar Land, TX
+  - English · Arabic
+contact:
+  email: Hadiahmed350@gmail.com
+  phone: (281) 965-5448
+  phoneHref: tel:+12819655448
+  linkedin: https://linkedin.com/in/hadi-ahmed-mis
+  instagram: https://instagram.com/_hadi.ahmed_
+  instagramHandle: "@_hadi.ahmed_"
+experience:
+  - role: Flooring Specialist
+    org: The Home Depot
+    place: Sugar Land, TX
+    dates: May 2024 – Present
+    bullets:
+      - Give customers detailed technical specs and side-by-side comparisons so they can make data-informed decisions within their budget.
+      - Scope projects end to end, gathering requirements, taking measurements and building cost estimates that hold up once work begins.
+      - Translate technical product information into clear recommendations tailored to each client.
+      - Work with teammates and supervisors on special requests and keep data and displays accurate.
+education:
+  - school: C. T. Bauer College of Business, University of Houston
+    detail: Management Information Systems
+    dates: Spring 2022 – Present
+    gpa: "3.5"
+    coursework: [Databases, Java, SQL, AI, Python]
+leadership:
+  - role: Operations Committee
+    org: Management Information Systems Student Organization (MISSO)
+    dates: Spring 2025 – Present
+    bullets:
+      - Attend workshops, guest speaker events and networking sessions with MIS professionals.
+      - Help set up and run MISSO events.
+      - See technology in business firsthand through case studies, company tours and hands-on sessions.
+skills:
+  technical: [Microsoft Azure (Functions, Application Insights), SQL, Python, Java, Microsoft Office (Excel, Word, PowerPoint), Freelance PC tech]
+  certifications: [Microsoft Word Certificate]
+  languages: [English, Arabic]
+  interests: [Stocks, Soccer, Music, Problem solving, Coding, Technology, Emulation]

@@ -25,6 +25,7 @@
     "@astrojs/check": "^0.9.12",
     "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "1.63.0",
+    "@rollup/plugin-yaml": "^5.0.1",
     "js-yaml": "^5.5.0",
     "typescript": "^5.9.3",
     "vitest": "3.2.4"

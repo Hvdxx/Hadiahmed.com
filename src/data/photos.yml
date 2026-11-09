@@ -1,0 +1,36 @@
+- image: stone-lantern.webp
+  alt: A stone lantern in the Japanese Garden, framed by greenery
+  caption: Stone lantern
+  place: Japanese Garden, Hermann Park
+  featured: true
+- image: go-coogs.webp
+  alt: Hadi and friends celebrating school spirit at the University of Houston
+  caption: Go Coogs
+  place: University of Houston
+  featured: true
+- image: evening-pond.webp
+  alt: The Hermann Park fountain at dusk with a duck along the shore
+  caption: Evening at the pond
+  place: Hermann Park, Houston
+  featured: true
+- image: genz-team.webp
+  alt: Hadi and the Bauer College team outside the John K. Stubblefield Auditorium for the Gen Z Ethics Competition
+  caption: Gen Z Ethics team
+  place: C. T. Bauer College of Business
+  featured: true
+- image: fountain-dusk.webp
+  alt: A bench facing the Hermann Park fountain at golden hour
+  caption: The fountain at dusk
+  place: Hermann Park, Houston
+- image: misso-1.webp
+  alt: Hadi at a MISSO event with fellow members
+  caption: MISSO event
+  place: University of Houston
+- image: misso-2.webp
+  alt: Hadi at a MISSO event, seated with a member
+  caption: MISSO event
+  place: University of Houston
+- image: portrait.webp
+  alt: Hadi Ahmed in a black suit and tie, arms crossed, against a gray studio backdrop
+  caption: Portrait
+  place: Studio

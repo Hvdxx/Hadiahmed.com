@@ -91,3 +91,10 @@ test('copy buttons announce the result to screen readers', async ({ browser }) =
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('Hadiahmed350@gmail.com');
   await ctx.close();
 });
+
+test('headshot is centered on phones', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('./');
+  const box = (await page.locator('.hero .portrait').boundingBox())!;
+  expect(Math.abs(box.x + box.width / 2 - 390 / 2)).toBeLessThanOrEqual(2);
+});

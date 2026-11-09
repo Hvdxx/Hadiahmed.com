@@ -5,7 +5,7 @@ import yaml from '@rollup/plugin-yaml';
 
 export default defineConfig({
   site: 'https://hvdxx.github.io',
-  base: '/hadiahmed.com',
+  base: '/Hadiahmed.com', // must match the GitHub repo name exactly (Pages paths are case-sensitive)
   trailingSlash: 'ignore',
   output: 'static',
   integrations: [sitemap()],

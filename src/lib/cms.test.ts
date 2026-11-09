@@ -14,7 +14,7 @@ describe('Pages CMS config', () => {
 
   it('points the guide at the address that works today', () => {
     const guide = readFileSync('docs/how-to-post.md', 'utf8');
-    expect(guide).toContain('hvdxx.github.io/hadiahmed.com/admin');
+    expect(guide).toContain('hvdxx.github.io/Hadiahmed.com/admin');
     expect(guide).not.toMatch(/\*\*hadiahmed\.com\/admin\*\*/);
   });
 

@@ -4,7 +4,7 @@ Hadi Ahmed's personal site and blog, built with [Astro](https://astro.build). Ev
 
 | Command | What it does |
 |---|---|
-| `npm run dev` | Local preview at http://localhost:4321/hadiahmed.com/ |
+| `npm run dev` | Local preview at http://localhost:4321/Hadiahmed.com/ |
 | `npm test` | Unit tests |
 | `npm run build` | Type-check and build into `dist/` |
 | `npm run test:e2e` | Browser and accessibility tests against the built site |

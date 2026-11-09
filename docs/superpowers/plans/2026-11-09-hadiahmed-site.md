@@ -28,7 +28,7 @@
 
 ## Review Focus
 
-1. Newest entry has no image → the featured card uses a text-only layout and has no broken `<img>`. Tested in Task 4.
+1. Newest entry has no image → the featured card uses a text-only layout and has no broken `<img>`. Tested in Task 4 (`Featured.test.ts`, via the Astro container API).
 2. Date-only post viewed from Houston (UTC−6) → shows the same calendar day as the file, not the day before. Tested in Task 2 (`formatDate`) and Task 6 (e2e with `timezoneId: 'America/Chicago'`).
 3. `draft: true` → appears nowhere: not on the home page, not in the index, not on a type page or in RSS, and gets no post page. Tested in Task 2 (`publishedEntries`) and Task 6.
 4. Entry with `image` but no `imageAlt` → the build fails with a clear message. Tested in Task 2 (schema test).
@@ -139,7 +139,7 @@ docs/how-to-post.md, docs/post-template.md
   - misso-operations-committee: 2025-01-15, work, image misso-1
   - gen-z-ethics-competition: 2024-09-01, project, image genz-team
   - home-depot-flooring-specialist: 2024-05-01, work
-  - houston-photos: 2026-04-15, personal, image fountain-dusk, with the body showing the four Houston photos
+  - houston-photos: 2026-04-15, personal, title `A few frames from around Houston`, image fountain-dusk, with the body showing the four Houston photos. It's the newest entry, so it's featured at launch.
 
   Bodies paraphrase the resume and old page, in first person and plainly written. Nothing new is invented.
 - `photos.yml` contains all 8 images. Set `featured: true` on stone-lantern, go-coogs, evening-pond and genz-team, the home-page grid order from the preview.
@@ -161,7 +161,7 @@ docs/how-to-post.md, docs/post-template.md
 **Files:**
 - Create: `src/styles/global.css`, `src/layouts/Base.astro`, `src/components/{Header,ThemeToggle,Footer,Hero,Featured,EntryIndex,TypeTag,PhotoGrid,Contact,TimeAgo}.astro`, `src/scripts/{theme,filters,time-ago}.ts`
 - Modify: `src/pages/index.astro`
-- Test: `tests/e2e/home.spec.ts`, `playwright.config.ts`
+- Test: `tests/e2e/home.spec.ts`, `playwright.config.ts`, `src/components/Featured.test.ts`
 
 **Interfaces:**
 - Consumes: `url`, `TYPES`, `publishedEntries`, `featured`, `countsByType`, `readingTime`, `formatDate`, `isoDate`, `timeAgo`, `profile`, `photos`.
@@ -182,8 +182,8 @@ docs/how-to-post.md, docs/post-template.md
   - the intro paragraph contains `Hey! I'm Hadi.`
   - the header has a link named `Let's talk` whose href ends with `#contact`
   - `#contact` contains `(281) 965-5448`, `Hadiahmed350@gmail.com` and `@_hadi.ahmed_`, plus a link with an href ending `resume.pdf`
-  - the "Latest" region shows the title of the newest non-draft entry (`Embedded Device Configuration`), a `time[datetime="2026-04-01"]`, and text matching `/min read/`
-  - since that entry has no image, `.latest img` has count 0
+  - the "Latest" region shows the newest non-draft entry's title (`A few frames from around Houston`), a `time[datetime="2026-04-15"]`, text matching `/min read/`, and an `img` with a non-empty alt
+  - `Featured.test.ts` (Vitest + `experimental_AstroContainer` from `astro/container`, with `getViteConfig` from `astro/config` in `vitest.config.ts`): rendering `Featured` with a stub entry `{ id:'x', data:{ title:'T', date:new Date('2026-01-01'), type:'writing' }, body:'hello' }` gives HTML that contains `no-image` and no `<img`
   - clicking the `Project` filter → every visible `li[data-type]` has `data-type="project"`, and the live region text matches `/Showing \d+ Project entries/`
   - with `colorScheme: 'light'`, the computed `body` background is `rgb(247, 243, 236)`; with `'dark'`, it is `rgb(12, 23, 38)`
   - clicking the theme toggle in dark → `html[data-theme="light"]`; after a reload it is still light
@@ -210,7 +210,7 @@ docs/how-to-post.md, docs/post-template.md
 - `404.astro`: the message "That page doesn't exist." with links to Home and Index.
 
 - [ ] **Step 1:** Write the failing `tests/e2e/pages.spec.ts`:
-  - `/index` lists 6 entries
+  - `/index` lists 6 entries (all published)
   - `/projects` lists exactly 3, all `data-type="project"`, and its "Project" link has `aria-current="page"`
   - `/writing` shows `Nothing here yet.`
   - `/posts/gen-z-ethics-competition` has h1 `Gen Z Ethics Competition with KPMG`, a figure img with a non-empty alt, and a previous/next nav
@@ -227,7 +227,7 @@ docs/how-to-post.md, docs/post-template.md
 ### Task 6: Accessibility gate and site-wide checks
 
 **Files:**
-- Create: `tests/e2e/a11y.spec.ts`, `tests/e2e/integrity.spec.ts`, `tests/fixtures/draft-check.md` (see Step 1)
+- Create: `tests/e2e/a11y.spec.ts`, `tests/e2e/integrity.spec.ts`, `tests/fixtures/add-draft.mjs`, `tests/fixtures/remove-draft.mjs`
 
 **Interfaces:**
 - Consumes: the built site.
@@ -238,7 +238,7 @@ docs/how-to-post.md, docs/post-template.md
   - `integrity.spec.ts`:
     - (a) Crawl every same-origin `a[href]` and `img[src]` reachable from the home page, 2 levels deep. Each returns status < 400.
     - (b) With `timezoneId: 'America/Chicago'`, `/posts/gen-z-ethics-competition` shows `Sep 1, 2024`.
-    - (c) Draft exclusion: the test writes `src/content/posts/zz-draft-test.md` (`draft: true`, date 2030-01-01, title `Draft Should Not Show`) before the build, using a `globalSetup` that runs only when `E2E_DRAFT_CHECK=1` and removes the file in teardown. It asserts the title appears on none of `/`, `/index` or `/rss.xml`, and that `/posts/zz-draft-test` returns 404. Add the npm script `test:drafts` (`E2E_DRAFT_CHECK=1 npm run build && E2E_DRAFT_CHECK=1 playwright test integrity`). The globalSetup must create the file before the build: make `test:drafts` do `node tests/fixtures/add-draft.mjs && npm run build && playwright test integrity; node tests/fixtures/remove-draft.mjs`.
+    - (c) Draft exclusion. Runs only when `E2E_DRAFT_CHECK=1`; otherwise `test.skip`. Asserts the title `Draft Should Not Show` appears on none of `/`, `/index` or `/rss.xml`, and that `/posts/zz-draft-test` returns 404. The npm script `test:drafts` is `node tests/fixtures/add-draft.mjs && npm run build && E2E_DRAFT_CHECK=1 playwright test integrity --trace off; s=$?; node tests/fixtures/remove-draft.mjs; npm run build >/dev/null; exit $s`. `add-draft.mjs` writes `src/content/posts/zz-draft-test.md` (`draft: true`, date 2030-01-01); `remove-draft.mjs` deletes it.
     - (d) At 320px wide, `document.documentElement.scrollWidth <= 320` on `/` and on `/posts/gen-z-ethics-competition`.
 - [ ] **Step 2:** Run `npm run build && npx playwright test --trace off`, then `npm run test:drafts`. Expected: any failures are real problems.
 - [ ] **Step 3:** Fix every reported violation in the components and CSS. Never disable axe rules.

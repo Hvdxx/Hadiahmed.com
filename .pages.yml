@@ -1,0 +1,126 @@
+# Pages CMS editor (https://app.pagescms.org). Field names must match
+# src/lib/schema.ts, src/data/profile.yml and src/data/photos.yml.
+media:
+  input: src/assets/images
+  output: ../../assets/images
+
+content:
+  - name: posts
+    label: Entries
+    type: collection
+    path: src/content/posts
+    filename: '{primary}.md'
+    format: yaml-frontmatter
+    view:
+      fields: [title, type, date, draft]
+      primary: title
+      sort: [date, title]
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+        required: true
+        description: The date the entry is about or was posted.
+      - name: type
+        label: Type
+        type: select
+        required: true
+        options:
+          values: [personal, writing, project, work]
+        description: 'personal = life and photos · writing = longer thoughts · project = something you built · work = a job or role'
+      - name: summary
+        label: Summary
+        type: text
+        description: One or two sentences shown on the home page and in link previews.
+      - name: image
+        label: Main photo
+        type: image
+        description: Optional. Shown big at the top of the entry and on the home page when it's the newest.
+      - name: imageAlt
+        label: Photo description
+        type: string
+        description: Required when you add a main photo. Describe what's in it for people who can't see it.
+      - name: draft
+        label: Draft (hide from the site)
+        type: boolean
+        default: false
+      - name: body
+        label: Text
+        type: rich-text
+
+  - name: profile
+    label: Site info
+    type: file
+    path: src/data/profile.yml
+    format: yaml
+    fields:
+      - { name: name, label: Name, type: string, required: true }
+      - { name: tagline, label: Tagline, type: string }
+      - { name: location, label: Location, type: string }
+      - { name: status, label: Status tag (green dot), type: string }
+      - { name: intro, label: Intro paragraph, type: text }
+      - { name: chips, label: Tags under the intro, type: string, list: true }
+      - name: contact
+        label: Contact
+        type: object
+        fields:
+          - { name: email, label: Email, type: string }
+          - { name: phone, label: Phone (as shown), type: string }
+          - { name: phoneHref, label: Phone link (tel:+1...), type: string }
+          - { name: linkedin, label: LinkedIn URL, type: string }
+          - { name: instagram, label: Instagram URL, type: string }
+          - { name: instagramHandle, label: Instagram handle, type: string }
+      - name: experience
+        label: Experience
+        type: object
+        list: true
+        fields:
+          - { name: role, type: string }
+          - { name: org, label: Company, type: string }
+          - { name: place, type: string }
+          - { name: dates, type: string }
+          - { name: bullets, type: text, list: true }
+      - name: education
+        label: Education
+        type: object
+        list: true
+        fields:
+          - { name: school, type: string }
+          - { name: detail, label: Major, type: string }
+          - { name: dates, type: string }
+          - { name: gpa, label: GPA, type: string }
+          - { name: coursework, type: string, list: true }
+      - name: leadership
+        label: Leadership & activities
+        type: object
+        list: true
+        fields:
+          - { name: role, type: string }
+          - { name: org, label: Organization, type: string }
+          - { name: dates, type: string }
+          - { name: bullets, type: text, list: true }
+      - name: skills
+        label: Skills
+        type: object
+        fields:
+          - { name: technical, type: string, list: true }
+          - { name: certifications, type: string, list: true }
+          - { name: languages, type: string, list: true }
+          - { name: interests, type: string, list: true }
+
+  - name: photos
+    label: Photos
+    type: file
+    path: src/data/photos.yml
+    format: yaml
+    list: true
+    fields:
+      - { name: image, label: Photo, type: image, required: true }
+      - { name: alt, label: Photo description, type: string, required: true }
+      - { name: caption, type: string }
+      - { name: place, type: string }
+      - { name: featured, label: Show on home page (first 4), type: boolean }

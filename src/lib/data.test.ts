@@ -33,10 +33,10 @@ describe('photos', () => {
     for (const p of photos) expect(p.alt.trim()).not.toBe('');
   });
   it('only points at images that exist', () => {
-    for (const p of photos) expect(existsSync(`src/assets/images/${p.image}`), p.image).toBe(true);
+    for (const p of photos) expect(existsSync(`src/assets/images/${p.image.split('/').pop()}`), p.image).toBe(true);
   });
   it('marks four photos for the home page grid', () => {
-    expect(photos.filter((p) => p.featured).map((p) => p.image)).toEqual([
+    expect(photos.filter((p) => p.featured).map((p) => p.image.split('/').pop())).toEqual([
       'stone-lantern.webp',
       'go-coogs.webp',
       'evening-pond.webp',

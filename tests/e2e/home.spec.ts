@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test';
+import { countOf, newest, pretty, profile, published } from './content';
 
 test.describe('home page', () => {
   test('introduces Hadi', async ({ page }) => {
     await page.goto('./');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Hadi Ahmed');
-    await expect(page.locator('.hero p.intro')).toContainText("Hey! I'm Hadi.");
-    await expect(page.locator('.hero')).toContainText('Open to summer internships');
+    await expect(page.locator('.hero p.intro')).toContainText(profile.intro.trim().slice(0, 40));
+    await expect(page.locator('.hero')).toContainText(profile.status);
   });
 
   test("has a Let's talk link at the top that goes to contact", async ({ page }) => {
@@ -17,34 +18,36 @@ test.describe('home page', () => {
   test('lists every way to get in touch', async ({ page }) => {
     await page.goto('./');
     const contact = page.locator('#contact');
-    await expect(contact).toContainText('(281) 965-5448');
-    await expect(contact).toContainText('Hadiahmed350@gmail.com');
-    await expect(contact).toContainText('@_hadi.ahmed_');
+    await expect(contact).toContainText(profile.contact.phone);
+    await expect(contact).toContainText(profile.contact.email);
+    await expect(contact).toContainText(profile.contact.instagramHandle);
     await expect(contact.getByRole('link', { name: /resume/i }).first()).toHaveAttribute('href', /resume\.pdf$/);
-    await expect(contact.locator('a[href="tel:+12819655448"]')).toHaveCount(1);
-    await expect(contact.locator('a[href="mailto:Hadiahmed350@gmail.com"]')).toHaveCount(1);
+    await expect(contact.locator(`a[href="${profile.contact.phoneHref}"]`)).toHaveCount(1);
+    await expect(contact.locator(`a[href="mailto:${profile.contact.email}"]`)).toHaveCount(1);
   });
 
   test('features the newest entry with date, time ago, reading time and photo', async ({ page }) => {
     await page.goto('./');
     const latest = page.locator('.latest');
-    await expect(latest).toContainText('A few frames from around Houston');
-    await expect(latest.locator('time[datetime="2026-04-15"]')).toHaveText('Apr 15, 2026');
+    await expect(latest.locator('h3')).toHaveText(newest.title);
+    await expect(latest.locator(`time[datetime="${newest.date}"]`)).toHaveText(pretty(newest.date));
     await expect(latest.locator('[data-ago]')).toHaveText(/ago|Today|Yesterday/);
     await expect(latest).toContainText(/\d+ min read/);
-    await expect(latest.locator('img')).toHaveAttribute('alt', /.+/);
+    if (newest.image) await expect(latest.locator('img')).toHaveAttribute('alt', /.+/);
+    else await expect(latest.locator('img')).toHaveCount(0);
   });
 
   test('filters the index by type', async ({ page }) => {
     await page.goto('./');
+    const projects = countOf('project');
     await page.getByRole('button', { name: /^Project/ }).click();
     const visible = page.locator('.idx li:visible');
-    await expect(visible).toHaveCount(3);
+    await expect(visible).toHaveCount(projects);
     for (const t of await visible.evaluateAll((els) => els.map((e) => e.getAttribute('data-type')))) expect(t).toBe('project');
     await expect(page.getByRole('button', { name: /^Project/ })).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('.idx-live')).toHaveText(/Showing 3 Project entries/);
+    await expect(page.locator('.idx-live')).toHaveText(new RegExp(`Showing ${projects} Project entr`));
     await page.getByRole('button', { name: /^All/ }).click();
-    await expect(page.locator('.idx li:visible')).toHaveCount(6);
+    await expect(page.locator('.idx li:visible')).toHaveCount(Math.min(published.length, 8));
   });
 
   test('follows the light setting with a 4000K paper background', async ({ browser }) => {
@@ -88,7 +91,7 @@ test('copy buttons announce the result to screen readers', async ({ browser }) =
   await page.goto('./');
   await page.getByRole('button', { name: 'Copy email address' }).click();
   await expect(page.locator('#copy-status')).toHaveText('Email address copied');
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('Hadiahmed350@gmail.com');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(profile.contact.email);
   await ctx.close();
 });
 

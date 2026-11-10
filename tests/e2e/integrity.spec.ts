@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { newest, pretty } from './content';
 
 test('every internal link and image resolves', async ({ page, request, baseURL }) => {
   const origin = new URL(baseURL!).origin;
@@ -36,12 +37,12 @@ test('every internal link and image resolves', async ({ page, request, baseURL }
 test.describe('in Houston', () => {
   test.use({ timezoneId: 'America/Chicago' });
   test('post dates show the same calendar day as the file', async ({ page }) => {
-    await page.goto('posts/gen-z-ethics-competition');
-    await expect(page.locator('article time')).toHaveText('Sep 1, 2024');
+    await page.goto(`posts/${newest.id}`);
+    await expect(page.locator('article time')).toHaveText(pretty(newest.date));
   });
 });
 
-for (const route of ['', 'posts/gen-z-ethics-competition', 'about', 'entries']) {
+for (const route of ['', `posts/${newest.id}`, 'about', 'entries']) {
   test(`/${route} fits a 320px screen`, async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 800 });
     await page.goto(route);

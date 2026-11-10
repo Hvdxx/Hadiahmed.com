@@ -1,7 +1,8 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { newest, withImage } from './content';
 
-const ROUTES = ['', 'entries', 'projects', 'work', 'personal', 'writing', 'photos', 'about', 'posts/gen-z-ethics-competition', 'posts/embedded-device-configuration', 'does-not-exist'];
+const ROUTES = ['', 'entries', 'projects', 'work', 'personal', 'writing', 'photos', 'about', ...new Set([newest.id, withImage.id].map((id) => `posts/${id}`)), 'does-not-exist'];
 
 for (const scheme of ['light', 'dark'] as const) {
   test.describe(`accessibility (${scheme})`, () => {

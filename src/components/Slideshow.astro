@@ -1,0 +1,150 @@
+---
+import { Image } from 'astro:assets';
+import type { GalleryItem } from '../lib/gallery';
+import { imageByName } from '../lib/images';
+import { url } from '../lib/url';
+
+interface Props { items: GalleryItem[] }
+const { items } = Astro.props;
+const total = items.length;
+---
+<section class="block wrap glow" aria-roledescription="carousel" aria-labelledby="ss-h" data-slideshow>
+  <h2 class="sec" id="ss-h"><span>Gallery</span><a href={url('gallery')}>View all {total}</a></h2>
+
+  <div class="ss">
+    <div class="ss-track" tabindex="0" aria-label="Photos. Swipe, scroll or use the buttons below to move between them.">
+      {items.map((it, i) => {
+        const img = imageByName(it.file);
+        return (
+          <figure class="ss-slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${total}`}>
+            <div class="ss-media">
+              <Image src={img} alt="" width={48} class="bd" aria-hidden="true" />
+              <Image src={img} alt={it.alt} widths={[480, 800, 1200]} sizes="(max-width: 1080px) 100vw, 1040px" loading={i === 0 ? 'eager' : 'lazy'} class="pic" />
+            </div>
+            <figcaption>
+              <span class="desc">{it.caption ?? it.alt}</span>
+              {it.source && <a class={`tag ${it.source.type}`} href={url(`posts/${it.source.id}`)}>From {it.source.title}</a>}
+            </figcaption>
+          </figure>
+        );
+      })}
+    </div>
+
+    <div class="ss-controls">
+      <button type="button" class="ss-btn" data-prev aria-label="Previous photo">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="ss-btn" data-toggle aria-label="Play slideshow" hidden>
+        <svg class="i-pause" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <svg class="i-play" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg>
+      </button>
+      <button type="button" class="ss-btn" data-next aria-label="Next photo">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="ss-count" aria-live="polite">1 of {total}</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  const DELAY = 6000;
+  for (const root of document.querySelectorAll<HTMLElement>('[data-slideshow]')) {
+    const track = root.querySelector<HTMLElement>('.ss-track')!;
+    const slides = [...root.querySelectorAll<HTMLElement>('.ss-slide')];
+    const count = root.querySelector<HTMLElement>('.ss-count')!;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-toggle]')!;
+    const n = slides.length;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let playing = false;
+    let timer: number | undefined;
+
+    const loadAround = (i: number) => {
+      for (const j of [i - 1, i, i + 1]) {
+        const img = slides[(j + n) % n]?.querySelector<HTMLImageElement>('img.pic');
+        if (img) img.loading = 'eager';
+      }
+    };
+    const show = (i: number, smooth = true) => {
+      current = (i + n) % n;
+      loadAround(current);
+      track.scrollTo({ left: current * track.clientWidth, behavior: smooth && !reduce ? 'smooth' : 'instant' });
+      count.textContent = `${current + 1} of ${n}`;
+    };
+    const stop = () => { window.clearInterval(timer); timer = undefined; };
+    const start = () => { stop(); if (playing) timer = window.setInterval(() => show(current + 1), DELAY); };
+    const setPlaying = (on: boolean) => {
+      playing = on;
+      toggle.setAttribute('aria-label', on ? 'Pause slideshow' : 'Play slideshow');
+      toggle.dataset.playing = String(on);
+      // Announce changes only when the visitor is moving through photos themselves
+      count.setAttribute('aria-live', on ? 'off' : 'polite');
+      on ? start() : stop();
+    };
+
+    root.querySelector('[data-next]')!.addEventListener('click', () => { show(current + 1); start(); });
+    root.querySelector('[data-prev]')!.addEventListener('click', () => { show(current - 1); start(); });
+    toggle.addEventListener('click', () => setPlaying(!playing));
+
+    // Swiping or scrolling the track by hand keeps the counter in step
+    let settle: number | undefined;
+    track.addEventListener('scroll', () => {
+      window.clearTimeout(settle);
+      settle = window.setTimeout(() => {
+        const i = Math.round(track.scrollLeft / track.clientWidth);
+        if (i !== current) { current = i; loadAround(i); count.textContent = `${i + 1} of ${n}`; }
+      }, 120);
+    });
+    window.addEventListener('resize', () => show(current, false));
+
+    // Pause while someone is looking at or using it
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', (e) => { if (!root.contains(e.relatedTarget as Node)) start(); });
+
+    // A different photo first on each visit
+    show(Math.floor(Math.random() * n), false);
+    toggle.hidden = false;
+    setPlaying(!reduce);
+  }
+</script>
+
+<style>
+  .ss { position: relative; }
+  .ss-track {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 100%;
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    border: 1px solid var(--line); border-radius: 14px; background: var(--panel);
+    box-shadow: 0 30px 80px -30px var(--glow-card);
+  }
+  .ss-track::-webkit-scrollbar { display: none; }
+  .ss-track:focus-visible { outline: 2px solid var(--t-project); outline-offset: 3px; }
+  .ss-slide { margin: 0; scroll-snap-align: start; min-width: 0; display: flex; flex-direction: column; }
+  .ss-media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--raise); }
+  .bd { position: absolute; inset: -8%; width: 116%; height: 116%; object-fit: cover; filter: blur(28px) saturate(1.1); opacity: 0.7; }
+  .pic { position: relative; width: 100%; height: 100%; object-fit: contain; }
+  figcaption {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px;
+    padding: 14px 18px 16px; min-height: 64px;
+  }
+  .desc {
+    flex: 1 1 320px; min-width: 0; font-size: 0.95rem;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  figcaption .tag { text-transform: none; letter-spacing: 0; font-size: 0.8rem; text-decoration: none; white-space: nowrap; }
+  figcaption .tag:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .ss-controls { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+  .ss-btn {
+    display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--fg); cursor: pointer;
+  }
+  .ss-btn:hover { border-color: var(--muted); }
+  .i-play { display: none; }
+  .ss-btn[data-playing='false'] .i-pause { display: none; }
+  .ss-btn[data-playing='false'] .i-play { display: block; }
+  .ss-count { margin-left: 6px; font: 400 0.82rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 640px) {
+    .ss-media { aspect-ratio: 4 / 5; }
+  }
+</style>

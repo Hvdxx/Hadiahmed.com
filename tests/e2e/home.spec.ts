@@ -112,3 +112,41 @@ test('light mode has a strong soft-white spotlight, mirroring the dark glow', as
   expect(a).toBeGreaterThanOrEqual(0.85); // clearly visible on the paper background
   await ctx.close();
 });
+
+test.describe('home gallery slideshow', () => {
+  test('shows every gallery photo with a description, one at a time', async ({ page }) => {
+    await page.goto('./');
+    const show = page.locator('[aria-roledescription="carousel"]');
+    await expect(show).toBeVisible();
+    const slides = show.locator('[aria-roledescription="slide"]');
+    expect(await slides.count()).toBeGreaterThan(4);
+    for (const d of await slides.locator('.desc').allTextContents()) expect(d.trim()).not.toBe('');
+    await expect(show.getByRole('link', { name: /view all/i })).toHaveAttribute('href', /gallery$/);
+  });
+
+  test('next and previous buttons move one photo and update the counter', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' }); // no autoplay while we test
+    await page.goto('./');
+    const counter = page.locator('.ss-count');
+    const read = async () => (await counter.textContent())!.match(/(\d+) of (\d+)/)!.slice(1).map(Number);
+    const [start, total] = await read();
+    await page.getByRole('button', { name: 'Next photo' }).click();
+    await expect(counter).toHaveText(`${(start % total) + 1} of ${total}`);
+    await page.getByRole('button', { name: 'Previous photo' }).click();
+    await expect(counter).toHaveText(`${start} of ${total}`);
+  });
+
+  test('plays on its own and can be paused', async ({ page }) => {
+    await page.goto('./');
+    const toggle = page.getByRole('button', { name: /pause slideshow/i });
+    await expect(toggle).toBeVisible();
+    await toggle.click();
+    await expect(page.getByRole('button', { name: /play slideshow/i })).toBeVisible();
+  });
+
+  test('does not play on its own when the visitor prefers reduced motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('./');
+    await expect(page.getByRole('button', { name: /play slideshow/i })).toBeVisible();
+  });
+});

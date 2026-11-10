@@ -99,3 +99,19 @@ test('photos placed together in a post sit side by side on wide screens', async 
   const tops = await group.locator('img').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
   expect(new Set(tops.slice(0, 2)).size).toBe(1);
 });
+
+test('post text, title and single photos sit in a centered column on wide screens', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(`posts/${withImage.id}`);
+  const center = async (sel: string) => {
+    const b = (await page.locator(sel).first().boundingBox())!;
+    return b.x + b.width / 2;
+  };
+  expect(Math.abs((await center('article .prose > p')) - 640)).toBeLessThanOrEqual(2);
+  expect(Math.abs((await center('article header')) - 640)).toBeLessThanOrEqual(2);
+  const single = page.locator('article .prose > p > img:only-child');
+  if (await single.count()) {
+    await single.first().scrollIntoViewIfNeeded();
+    expect(Math.abs((await center('article .prose > p > img:only-child')) - 640)).toBeLessThanOrEqual(2);
+  }
+});

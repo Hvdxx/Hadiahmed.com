@@ -50,11 +50,11 @@ test.describe('home page', () => {
     await expect(page.locator('.idx li:visible')).toHaveCount(Math.min(published.length, 8));
   });
 
-  test('follows the light setting with a 4000K paper background', async ({ browser }) => {
+  test('follows the light setting with a soft warm background', async ({ browser }) => {
     const ctx = await browser.newContext({ colorScheme: 'light' });
     const page = await ctx.newPage();
     await page.goto('./');
-    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(247, 243, 236)');
+    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(233, 228, 218)');
     await ctx.close();
   });
 
@@ -74,7 +74,7 @@ test.describe('home page', () => {
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(247, 243, 236)');
+    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(233, 228, 218)');
     await ctx.close();
   });
 

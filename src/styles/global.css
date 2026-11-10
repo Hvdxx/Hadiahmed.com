@@ -5,22 +5,22 @@
 @import '@fontsource/ibm-plex-mono/400.css';
 @import '@fontsource/ibm-plex-mono/500.css';
 
-/* Light (4000K paper) is the base; dark comes from the viewer's setting or the toggle. */
+/* Light (soft warm paper, low glare) is the base; dark comes from the viewer's setting or the toggle. */
 :root {
-  --bg: #f7f3ec;
-  --panel: #fcfaf6;
-  --raise: #f0ebe2;
-  --fg: #16202c;
-  --muted: #5b5f63;
-  --line: #e2dbcf;
+  --bg: #e9e4da;
+  --panel: #f1ece4;
+  --raise: #e2dccf;
+  --fg: #1e2630;
+  --muted: #53585d;
+  --line: #d3cbbc;
   --t-project: #0b5c9c;
   --t-writing: #8a5200;
   --t-work: #166e49;
   --t-personal: #a92f3a;
-  --glow1: rgba(255, 196, 128, 0.34);
-  --glow2: rgba(40, 120, 230, 0.07);
-  --glow3: rgba(255, 204, 150, 0.22);
-  --glow-card: rgba(140, 100, 50, 0.2);
+  --glow1: rgba(222, 160, 96, 0.22);
+  --glow2: rgba(40, 120, 230, 0.05);
+  --glow3: rgba(222, 170, 112, 0.14);
+  --glow-card: rgba(110, 80, 40, 0.18);
   --on-accent: #ffffff;
   --body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;

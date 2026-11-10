@@ -8,6 +8,7 @@ export default defineConfig({
   base: '/Hadiahmed.com', // must match the GitHub repo name exactly (Pages paths are case-sensitive)
   trailingSlash: 'ignore',
   output: 'static',
+  redirects: { '/photos': '/Hadiahmed.com/gallery' },
   integrations: [sitemap()],
   vite: { plugins: [yaml()] },
 });

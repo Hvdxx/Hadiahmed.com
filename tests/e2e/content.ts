@@ -35,3 +35,6 @@ export const profile = load(readFileSync('src/data/profile.yml', 'utf8')) as {
 export const photos = load(readFileSync('src/data/photos.yml', 'utf8')) as { image: string; alt: string }[];
 /** First published entry with a main photo */
 export const withImage = published.find((e) => e.image)!;
+
+/** Does this post have a main photo or any photo in its text? */
+export const hasPhotos = (id: string) => /^image:|!\[/m.test(readFileSync(`${DIR}/${id}.md`, 'utf8'));

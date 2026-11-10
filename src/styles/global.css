@@ -17,10 +17,11 @@
   --t-writing: #8a5200;
   --t-work: #166e49;
   --t-personal: #a92f3a;
-  --glow1: rgba(222, 160, 96, 0.22);
-  --glow2: rgba(40, 120, 230, 0.05);
-  --glow3: rgba(222, 170, 112, 0.14);
-  --glow-card: rgba(110, 80, 40, 0.18);
+  /* Soft white spotlight: the light-mode mirror of the dark theme's blue glow */
+  --glow1: rgba(255, 252, 245, 0.95);
+  --glow2: rgba(222, 160, 96, 0.12);
+  --glow3: rgba(255, 251, 242, 0.7);
+  --glow-card: rgba(255, 250, 240, 0.95);
   --on-accent: #ffffff;
   --body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;

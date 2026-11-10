@@ -19,7 +19,7 @@ const gridPhotos = photos.filter((p) => p.featured).slice(0, 4);
   {latest && <Featured entry={latest} />}
   <EntryIndex entries={entries} limit={8} filters="buttons" />
   <section class="block wrap glow" aria-labelledby="photos-h">
-    <h2 class="sec" id="photos-h"><span>Photos · Houston</span><a href={url('photos')}>View all</a></h2>
+    <h2 class="sec" id="photos-h"><span>Gallery</span><a href={url('gallery')}>View all</a></h2>
     <PhotoGrid photos={gridPhotos} />
   </section>
   <Contact />

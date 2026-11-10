@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import type { GalleryItem } from '../lib/gallery';
+import { imageByName } from '../lib/images';
+import { typeInfo } from '../lib/entries';
+import { url } from '../lib/url';
+
+interface Props { items: GalleryItem[] }
+const { items } = Astro.props;
+---
+<ul class="gallery">
+  {items.map((it) => (
+    <li>
+      <figure class:list={[{ linked: it.source }]}>
+        <Image src={imageByName(it.file)} alt={it.alt} widths={[400, 700, 1000]} sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 360px" />
+        {(it.caption || it.source) && (
+          <figcaption>
+            {it.caption && <span class="cap">{it.caption}</span>}
+            {it.source && (
+              <a href={url(`posts/${it.source.id}`)} class={`from tag ${it.source.type}`}>
+                <span class="sr-only">{typeInfo(it.source.type).label} entry: </span>From {it.source.title}
+              </a>
+            )}
+          </figcaption>
+        )}
+      </figure>
+    </li>
+  ))}
+</ul>
+<style>
+  .gallery { list-style: none; margin: 0; padding: 0; columns: 3 260px; column-gap: 14px; }
+  li { break-inside: avoid; margin-bottom: 14px; }
+  figure {
+    position: relative; margin: 0; overflow: hidden; border-radius: 12px;
+    border: 1px solid var(--line); background: var(--panel); box-shadow: 0 18px 50px -26px var(--glow-card);
+  }
+  img { width: 100%; height: auto; display: block; }
+  figcaption { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px 12px; font-size: 0.86rem; }
+  .cap { color: var(--fg); }
+  .from { text-decoration: none; text-transform: none; letter-spacing: 0; font-size: 0.8rem; }
+  .from:hover { text-decoration: underline; text-underline-offset: 3px; }
+  /* Clicking anywhere on a linked photo opens the post it came from */
+  .linked .from::after { content: ''; position: absolute; inset: 0; }
+  .linked:has(.from:focus-visible) { outline: 2px solid var(--t-project); outline-offset: 3px; }
+  .from:focus-visible { outline: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    img { transition: transform 0.6s ease; }
+    .linked:hover img { transform: scale(1.02); }
+  }
+</style>

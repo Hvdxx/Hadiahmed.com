@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import GalleryGrid from '../components/GalleryGrid.astro';
+import { publishedEntries } from '../lib/entries';
+import { fileFromSrc, galleryItems } from '../lib/gallery';
+import { photos } from '../lib/data';
+
+const entries = publishedEntries(await getCollection('posts'));
+const items = galleryItems(
+  entries.map((e) => {
+    const img = e.data.image as ImageMetadata | undefined;
+    return {
+      id: e.id,
+      title: e.data.title,
+      type: e.data.type,
+      main: img ? { file: fileFromSrc(img.src), alt: e.data.imageAlt ?? '' } : undefined,
+      body: e.body,
+    };
+  }),
+  photos,
+);
+---
+<Base title="Gallery" description="Every photo from Hadi's posts, plus a few more. Each one links back to the post it came from.">
+  <PageHead title="Gallery" lede="Every photo from my posts, plus a few more. Tap a photo to read the post it came from." />
+  <section class="wrap block glow" aria-label="All photos">
+    <GalleryGrid items={items} />
+  </section>
+</Base>

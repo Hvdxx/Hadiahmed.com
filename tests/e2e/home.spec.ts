@@ -101,3 +101,14 @@ test('headshot is centered on phones', async ({ page }) => {
   const box = (await page.locator('.hero .portrait').boundingBox())!;
   expect(Math.abs(box.x + box.width / 2 - 390 / 2)).toBeLessThanOrEqual(2);
 });
+
+test('light mode has a strong soft-white spotlight, mirroring the dark glow', async ({ browser }) => {
+  const ctx = await browser.newContext({ colorScheme: 'light' });
+  const page = await ctx.newPage();
+  await page.goto('./');
+  const glow = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--glow1').trim());
+  const [r, g, b, a] = glow.match(/[\d.]+/g)!.map(Number);
+  expect(Math.min(r, g, b)).toBeGreaterThanOrEqual(240); // near white
+  expect(a).toBeGreaterThanOrEqual(0.85); // clearly visible on the paper background
+  await ctx.close();
+});

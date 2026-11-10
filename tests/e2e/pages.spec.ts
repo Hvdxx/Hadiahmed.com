@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { countOf, photos, pretty, profile, published, withImage } from './content';
+import { countOf, hasPhotos, photos, pretty, profile, published, withImage } from './content';
 
 test('index lists every published entry', async ({ page }) => {
   await page.goto('entries');
@@ -37,11 +37,29 @@ test('about page carries the resume', async ({ page }) => {
   await expect(page.locator('main')).toContainText(profile.leadership[0].role);
 });
 
-test('photos page shows all eight photos with descriptions', async ({ page }) => {
-  await page.goto('photos');
+test('gallery collects photos from every post and links back to each one', async ({ page }) => {
+  await page.goto('gallery');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Gallery');
   const imgs = page.locator('main figure img');
-  await expect(imgs).toHaveCount(photos.length);
+  expect(await imgs.count()).toBeGreaterThanOrEqual(photos.length);
   for (const alt of await imgs.evaluateAll((els) => els.map((e) => e.getAttribute('alt') ?? ''))) expect(alt.trim()).not.toBe('');
+  for (const e of published.filter((p) => hasPhotos(p.id))) {
+    await expect(page.locator(`main figure a[href$="/posts/${e.id}"]`).first(), e.id).toBeVisible();
+  }
+  const first = page.locator('main figure a[href*="/posts/"]').first();
+  const href = (await first.getAttribute('href'))!;
+  await first.click();
+  await expect(page).toHaveURL(new RegExp(`${href}/?$`));
+});
+
+test('old /photos address forwards to the gallery', async ({ page }) => {
+  await page.goto('photos');
+  await expect(page).toHaveURL(/\/gallery\/?$/);
+});
+
+test('menu links to the gallery', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: '/gallery' })).toBeVisible();
 });
 
 test('rss feed has one item per entry', async ({ request }) => {

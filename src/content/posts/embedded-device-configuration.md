@@ -4,7 +4,7 @@ date: 2026-02-26
 type: project
 summary: "Flashing custom firmware on a handheld gaming device and tuning it
   until everything runs right. "
-image: ../../assets/images/IMG_3194.jpg
+image: ../../assets/images/IMG_3194-1.jpg
 imageAlt: My front end ES-DE showcasing my catalogue
 draft: false
 ---

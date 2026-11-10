@@ -59,3 +59,11 @@ test('unknown pages get a friendly 404', async ({ page }) => {
   expect(res?.status()).toBe(404);
   await expect(page.getByText("That page doesn't exist.")).toBeVisible();
 });
+
+test('embedded device post shows the handheld and the desk photos', async ({ page }) => {
+  await page.goto('posts/embedded-device-configuration');
+  await expect(page.locator('article figure.hero-img img')).toHaveAttribute('alt', /.+/);
+  const inText = page.locator('article .prose img');
+  await expect(inText).toHaveCount(3);
+  for (const alt of await inText.evaluateAll((els) => els.map((e) => e.getAttribute('alt') ?? ''))) expect(alt.trim()).not.toBe('');
+});

@@ -11,5 +11,3 @@ This concert meant so much to me, I love Kanye and it meant everything that i go
 
 ![IMG_3122.jpg](../../assets/images/IMG_3122-1.jpg)
 
-![IMG_3069.jpg](../../assets/images/IMG_3069.jpg)
-

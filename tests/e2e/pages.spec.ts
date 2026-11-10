@@ -69,3 +69,15 @@ test('every photo inside every post has a description', async ({ page }) => {
     }
   }
 });
+
+test('photos placed together in a post sit side by side on wide screens', async ({ page }) => {
+  // Any post whose Markdown has image lines with no blank line between them
+  const { readFileSync } = await import('node:fs');
+  const post = published.find((e) => /!\[[^\]]*\]\([^)]*\)\n!\[/.test(readFileSync(`src/content/posts/${e.id}.md`, 'utf8')));
+  test.skip(!post, 'no post groups photos yet');
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(`posts/${post!.id}`);
+  const group = page.locator('.prose p:has(> img + img)').first();
+  const tops = await group.locator('img').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
+  expect(new Set(tops.slice(0, 2)).size).toBe(1);
+});

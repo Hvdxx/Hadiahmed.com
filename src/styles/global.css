@@ -144,11 +144,26 @@ h1, h2, h3 { text-wrap: balance; }
 }
 .chip .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--t-work); margin-right: 7px; }
 
-/* Prose for post bodies */
-.prose { font-size: 1.06rem; line-height: 1.75; max-width: 68ch; }
+/* Prose for post bodies. Text stays at a readable width; photos may go wider. */
+.prose { font-size: 1.06rem; line-height: 1.75; }
+.prose > * { max-width: 68ch; }
+.prose > p:has(> img) { max-width: 100%; }
 .prose p, .prose ul, .prose ol { margin: 0 0 1.1em; }
 .prose a { color: var(--t-project); text-underline-offset: 3px; }
 .prose img { border-radius: 10px; border: 1px solid var(--line); margin: 1.6em 0; box-shadow: 0 18px 50px -26px var(--glow-card); }
+/* A single photo: never taller than most of the screen */
+.prose > p > img:only-child { max-height: 72vh; width: auto; max-width: 100%; }
+/* Photos written on consecutive lines (no blank line) form a side-by-side group */
+.prose > p:has(> img + img) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-block: 1.6em; }
+.prose > p:has(> img:nth-of-type(2):last-of-type),
+.prose > p:has(> img:nth-of-type(4):last-of-type) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.prose > p:has(> img + img) > img { margin: 0; width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+/* An italic line right after a photo is its caption */
+.prose > p:has(> img) + p:has(> em:only-child) { margin-top: -0.6em; font-size: 0.88rem; color: var(--muted); }
+@media (max-width: 640px) {
+  .prose > p:has(> img + img) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .prose > p:has(> img:nth-of-type(3):last-of-type) > img:first-child { grid-column: span 2; }
+}
 .prose h2, .prose h3 { line-height: 1.25; margin: 1.6em 0 0.5em; }
 .prose code { font-family: var(--mono); font-size: 0.9em; background: var(--raise); padding: 1px 5px; border-radius: 4px; }
 

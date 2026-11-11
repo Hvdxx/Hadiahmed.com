@@ -61,3 +61,49 @@ test.describe('drafts', () => {
     expect((await request.get('posts/zz-draft-test')).status()).toBe(404);
   });
 });
+
+test.describe('post photo rows', () => {
+  test.skip(!process.env.E2E_DRAFT_CHECK, 'run with npm run test:drafts');
+  const box = async (page: import('@playwright/test').Page, sel: string) => (await page.locator(sel).boundingBox())!;
+
+  test('alternate text and photo sides on wide screens', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('posts/zz-layout-test');
+    await expect(page.locator('.photo-row')).toHaveCount(2);
+    const t1 = await box(page, '.photo-row >> nth=0 >> .row-text');
+    const m1 = await box(page, '.photo-row >> nth=0 >> .row-media');
+    const t2 = await box(page, '.photo-row >> nth=1 >> .row-text');
+    const m2 = await box(page, '.photo-row >> nth=1 >> .row-media');
+    expect(t1.x).toBeLessThan(m1.x); // text left, photo right
+    expect(t2.x).toBeGreaterThan(m2.x); // flipped
+    await expect(page.locator('.photo-row >> nth=1 >> .row-media')).toContainText('Caption for photo two');
+  });
+
+  test('stack text above photo on phones', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('posts/zz-layout-test');
+    for (const i of [0, 1]) {
+      const t = await box(page, `.photo-row >> nth=${i} >> .row-text`);
+      const m = await box(page, `.photo-row >> nth=${i} >> .row-media`);
+      expect(t.y).toBeLessThan(m.y);
+    }
+  });
+
+  test('rows appear as you scroll to them', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 400 });
+    await page.goto('posts/zz-layout-test');
+    const row = page.locator('.photo-row').nth(1);
+    expect(await row.evaluate((e) => e.getBoundingClientRect().top > innerHeight)).toBe(true); // starts off screen
+    expect(await row.evaluate((e) => getComputedStyle(e).opacity)).toBe('0');
+    await row.scrollIntoViewIfNeeded();
+    await expect.poll(() => row.evaluate((e) => getComputedStyle(e).opacity), { timeout: 3000 }).toBe('1');
+  });
+
+  test('rows are simply visible for visitors who prefer reduced motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('posts/zz-layout-test');
+    expect(await page.locator('.photo-row').nth(1).evaluate((e) => getComputedStyle(e).opacity)).toBe('1');
+  });
+});

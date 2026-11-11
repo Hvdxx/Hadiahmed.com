@@ -107,11 +107,23 @@ test('post text, title and single photos sit in a centered column on wide screen
     const b = (await page.locator(sel).first().boundingBox())!;
     return b.x + b.width / 2;
   };
-  expect(Math.abs((await center('article .prose > p')) - 640)).toBeLessThanOrEqual(2);
+  expect(Math.abs((await center('article .prose > *')) - 640)).toBeLessThanOrEqual(2);
   expect(Math.abs((await center('article header')) - 640)).toBeLessThanOrEqual(2);
   const single = page.locator('article .prose > p > img:only-child');
   if (await single.count()) {
     await single.first().scrollIntoViewIfNeeded();
     expect(Math.abs((await center('article .prose > p > img:only-child')) - 640)).toBeLessThanOrEqual(2);
+  }
+});
+
+test('post headings line up with the text column', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const e of published) {
+    await page.goto(`posts/${e.id}`);
+    const h = page.locator('article .prose > h2').first();
+    if (!(await h.count())) continue;
+    const text = (await page.locator('article .prose > :is(p, ul, ol)').first().boundingBox())!;
+    expect(Math.abs((await h.boundingBox())!.x - text.x), e.id).toBeLessThanOrEqual(2);
   }
 });

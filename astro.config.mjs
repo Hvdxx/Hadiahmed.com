@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import yaml from '@rollup/plugin-yaml';
+import { photoRows } from './src/plugins/rehype-photo-rows.ts';
 
 export default defineConfig({
   site: 'https://hvdxx.github.io',
@@ -10,5 +11,6 @@ export default defineConfig({
   output: 'static',
   redirects: { '/photos': '/Hadiahmed.com/gallery' },
   integrations: [sitemap()],
+  markdown: { rehypePlugins: [photoRows] },
   vite: { plugins: [yaml()] },
 });

@@ -1,2 +1,2 @@
 import { rmSync } from 'node:fs';
-rmSync('src/content/posts/zz-draft-test.md', { force: true });
+for (const f of ['zz-draft-test.md', 'zz-layout-test.md']) rmSync(`src/content/posts/${f}`, { force: true });

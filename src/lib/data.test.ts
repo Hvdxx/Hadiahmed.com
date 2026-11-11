@@ -26,6 +26,9 @@ describe('photos', () => {
   it('every photo has a description', () => {
     for (const p of photos) expect(p.alt.trim(), p.image).not.toBe('');
   });
+  it('uses the image path the editor understands, so its previews load', () => {
+    for (const p of photos) expect(p.image, p.image).toMatch(/^\.\.\/\.\.\/assets\/images\/[^/]+$/);
+  });
   it('only points at images that exist', () => {
     for (const p of photos) expect(existsSync(`src/assets/images/${p.image.split('/').pop()}`), p.image).toBe(true);
   });

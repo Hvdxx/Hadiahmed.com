@@ -32,6 +32,10 @@ describe('Pages CMS config', () => {
     expect(posts.fields.find((f) => f.name === 'type')!.options!.values).toEqual(['personal', 'writing', 'project', 'work']);
   });
 
+  it('photo form has no leftover home-page switch', () => {
+    expect(byName('photos').fields.map((f) => f.name)).toEqual(['image', 'alt', 'caption', 'place']);
+  });
+
   it('edits the site info and photo files that exist', () => {
     expect(existsSync(byName('profile').path)).toBe(true);
     expect(existsSync(byName('photos').path)).toBe(true);

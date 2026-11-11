@@ -21,7 +21,6 @@ export interface Photo {
   alt: string;
   caption: string;
   place: string;
-  featured?: boolean;
 }
 
 export const profile = profileData as Profile;

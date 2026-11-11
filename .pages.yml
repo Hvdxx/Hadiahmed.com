@@ -124,4 +124,3 @@ content:
       - { name: alt, label: Photo description, type: string, required: true }
       - { name: caption, type: string }
       - { name: place, type: string }
-      - { name: featured, label: Show on home page (first 4), type: boolean }

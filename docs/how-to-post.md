@@ -28,7 +28,7 @@ Your newest entry always shows up as the big "Latest" card on the home page, wit
 
 **Editing or deleting:** open **Entries**, click the entry, change it and click **Save**. To delete it, use the menu next to the entry.
 
-**Changing your info:** **Site info** holds your intro paragraph, the tags under it, your contact details, experience, education and skills. **Photos** holds the photo page. Turn on "Show on home page" for the 4 photos you want in the home page grid.
+**Changing your info:** **Site info** holds your intro paragraph, the tags under it, your contact details, experience, education and skills. **Photos** holds extra photos that aren't in any post. They show up in the Gallery and the home page slideshow, next to every photo from your posts.
 
 **Tip:** for extra photos *inside* the text of a post, ask Claude, or use option 2 below. Main photos always work in the editor.
 
@@ -47,3 +47,7 @@ Paste what you want to say and tell Claude the type, for example: "post this as 
 ## If something goes wrong
 
 Every update is checked before it goes live, for things like missing photo descriptions or accessibility problems. If a check fails, the site stays as it was, and GitHub emails you. Open the **Actions** tab on GitHub to see what failed, or ask Claude to fix it.
+
+## Paragraphs with photos
+
+In a post's text, a paragraph followed directly by one photo shows up side by side: text on one side, photo on the other, switching sides with each pair. Put a line in *italics* right under the photo to give it a caption. Photos written on lines right after each other, with no blank line between them, show up in a row instead.

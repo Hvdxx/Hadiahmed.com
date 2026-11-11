@@ -39,6 +39,13 @@ describe('photoRows', () => {
     expect(shape(run(root(el('ul', [el('li', [t('x')])]), p(img('a.jpg')))))).toEqual([{ row: ['row-text', 'row-media'] }]);
   });
 
+  it('pulls a heading right before the text into the row, above the text', () => {
+    const tree = run(root(p(t('Intro')), el('h2', [t('Becoming a coach')]), p(t('Text')), p(img('a.jpg'))));
+    expect(shape(tree)).toEqual(['p', { row: ['row-text', 'row-media'] }]);
+    const text = tree.children!.find((c) => c.tagName === 'div')!.children![0];
+    expect(text.children!.map((c) => c.tagName)).toEqual(['h2', 'p']);
+  });
+
   it('leaves photos alone when there is no text right before them', () => {
     expect(shape(run(root(el('h2', [t('Head')]), p(img('a.jpg')), p(img('b.jpg')))))).toEqual(['h2', 'p', 'p']);
   });

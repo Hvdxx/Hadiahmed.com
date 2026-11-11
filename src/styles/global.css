@@ -173,6 +173,7 @@ h1, h2, h3 { text-wrap: balance; }
 }
 .prose > .photo-row:nth-of-type(even) .row-text { order: 2; }
 .row-text > :last-child { margin-bottom: 0; }
+.row-text > :is(h2, h3, h4):first-child { margin-top: 0; }
 .row-media > p { margin: 0; }
 .row-media img { margin: 0; width: 100%; height: auto; max-height: 78vh; object-fit: cover; }
 .row-media > p + p { margin-top: 10px; font-size: 0.88rem; color: var(--muted); }

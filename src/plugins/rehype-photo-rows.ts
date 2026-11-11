@@ -1,7 +1,8 @@
 /**
  * Post layout: a block of text followed directly by a single photo becomes a side-by-side
- * "photo row" (text | photo). CSS flips every other row. An italic-only line right after
- * the photo stays with it as its caption. Everything else is left untouched.
+ * "photo row" (text | photo). CSS flips every other row. A heading right before the text
+ * moves into the row above it, and an italic-only line right after the photo stays with it
+ * as its caption. Everything else is left untouched.
  */
 interface Node {
   type: string;
@@ -17,6 +18,7 @@ const hasImage = (n: Node): boolean => n.tagName === 'img' || (n.children ?? [])
 
 const isSinglePhoto = (n: Node) => n.tagName === 'p' && kids(n).length === 1 && kids(n)[0].tagName === 'img';
 const isText = (n: Node) => ['p', 'ul', 'ol', 'blockquote'].includes(n.tagName ?? '') && !hasImage(n);
+const isHeading = (n: Node) => ['h2', 'h3', 'h4'].includes(n.tagName ?? '');
 const isCaption = (n: Node) => n.tagName === 'p' && kids(n).length === 1 && kids(n)[0].tagName === 'em';
 
 const div = (className: string, children: Node[]): Node => ({
@@ -36,7 +38,9 @@ export function photoRows() {
       if (cur.type === 'element' && next && isText(cur) && isSinglePhoto(next)) {
         const media = [next];
         if (blocks[i + 2] && isCaption(blocks[i + 2])) media.push(blocks[i + 2]);
-        out.push(div('photo-row', [div('row-text', [cur]), div('row-media', media)]));
+        const text = [cur];
+        if (out.length && isHeading(out[out.length - 1])) text.unshift(out.pop()!);
+        out.push(div('photo-row', [div('row-text', text), div('row-media', media)]));
         i += media.length;
       } else {
         out.push(cur);

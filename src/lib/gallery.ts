@@ -18,7 +18,7 @@ export interface GalleryItem {
 }
 
 const baseName = (path: string) => path.split('?')[0].split('/').pop()!;
-const key = (file: string) => file.toLowerCase();
+const byName = (file: string) => file.toLowerCase();
 
 /** Original file name from an Astro image src (dev "/@fs/.../x.webp?..." or built "/_astro/x.HASH.webp"). */
 export function fileFromSrc(src: string): string {
@@ -29,7 +29,8 @@ export function fileFromSrc(src: string): string {
 const INLINE_IMAGE = /!\[([^\]]*)\]\(\s*([^)\s]+)(?:\s+"[^"]*")?\s*\)/g;
 
 /** Every photo from every post (main photo first, then in-text photos), then the extra photos list, each shown once. */
-export function galleryItems(posts: GalleryPost[], photos: GalleryPhoto[]): GalleryItem[] {
+/** `key` says which files are the same picture (by default: the same name, ignoring case). */
+export function galleryItems(posts: GalleryPost[], photos: GalleryPhoto[], key: (file: string) => string = byName): GalleryItem[] {
   const items = new Map<string, GalleryItem>();
   for (const p of posts) {
     const source = { id: p.id, title: p.title, type: p.type };

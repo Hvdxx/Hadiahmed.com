@@ -121,6 +121,6 @@ content:
     list: true
     fields:
       - { name: image, label: Photo, type: image, required: true }
-      - { name: alt, label: Photo description, type: string, required: true }
-      - { name: caption, type: string }
-      - { name: place, type: string }
+      - { name: alt, label: Description for screen readers (what's in the photo), type: string, required: true }
+      - { name: caption, label: Caption (shown under the photo in the slideshow and gallery), type: string }
+      - { name: place, label: Place (optional), type: string }

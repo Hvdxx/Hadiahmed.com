@@ -56,4 +56,17 @@ describe('galleryItems', () => {
     const [only] = galleryItems([post('k', 'Kanye Concert', '![IMG_3122.jpg](../../assets/images/IMG_3122-1.jpg)')], []);
     expect(only.alt).toBe('Photo from Kanye Concert');
   });
+
+  it('treats two copies of the same picture as one photo and keeps the caption', () => {
+    // The site stores identical files once, so a main photo can come back under the other copy's name
+    const same = (f: string) => f.toLowerCase().replace(/-1(?=\.)/, '');
+    const items = galleryItems(
+      [post('k', 'Kanye Concert', '', { file: 'IMG_3112.jpg', alt: 'Flashing lights' })],
+      [{ image: '../../assets/images/IMG_3112-1.jpg', alt: 'Lasers', caption: 'Flashing lights' }],
+      same,
+    );
+    expect(items).toHaveLength(1);
+    expect(items[0].source?.id).toBe('k');
+    expect(items[0].caption).toBe('Flashing lights');
+  });
 });

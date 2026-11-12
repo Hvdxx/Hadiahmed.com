@@ -5,23 +5,23 @@
 @import '@fontsource/ibm-plex-mono/400.css';
 @import '@fontsource/ibm-plex-mono/500.css';
 
-/* Light (soft warm paper, low glare) is the base; dark comes from the viewer's setting or the toggle. */
+/* Light (dim warm linen, low glare) is the base; dark comes from the viewer's setting or the toggle. */
 :root {
-  --bg: #e9e4da;
-  --panel: #f1ece4;
-  --raise: #e2dccf;
-  --fg: #1e2630;
-  --muted: #53585d;
-  --line: #d3cbbc;
+  --bg: #e2dcd0;
+  --panel: #e9e3d8;
+  --raise: #d9d2c4;
+  --fg: #262b31;
+  --muted: #52555a;
+  --line: #cec5b5;
   --t-project: #0b5c9c;
-  --t-writing: #8a5200;
-  --t-work: #166e49;
-  --t-personal: #a92f3a;
-  /* Soft white spotlight: the light-mode mirror of the dark theme's blue glow */
-  --glow1: rgba(255, 252, 245, 0.95);
-  --glow2: rgba(222, 160, 96, 0.12);
-  --glow3: rgba(255, 251, 242, 0.7);
-  --glow-card: rgba(255, 250, 240, 0.95);
+  --t-writing: #7f4b00;
+  --t-work: #14653f;
+  --t-personal: #a02c37;
+  /* Warm candle-light spotlight: the soft light-mode mirror of the dark theme's blue glow */
+  --glow1: rgba(246, 238, 224, 0.9);
+  --glow2: rgba(214, 150, 90, 0.14);
+  --glow3: rgba(244, 236, 222, 0.6);
+  --glow-card: rgba(196, 160, 112, 0.45);
   --on-accent: #ffffff;
   --body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;

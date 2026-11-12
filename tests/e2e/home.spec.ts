@@ -54,7 +54,7 @@ test.describe('home page', () => {
     const ctx = await browser.newContext({ colorScheme: 'light' });
     const page = await ctx.newPage();
     await page.goto('./');
-    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(233, 228, 218)');
+    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(226, 220, 208)');
     await ctx.close();
   });
 
@@ -74,7 +74,7 @@ test.describe('home page', () => {
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(233, 228, 218)');
+    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(226, 220, 208)');
     await ctx.close();
   });
 
@@ -102,14 +102,25 @@ test('headshot is centered on phones', async ({ page }) => {
   expect(Math.abs(box.x + box.width / 2 - 390 / 2)).toBeLessThanOrEqual(2);
 });
 
-test('light mode has a strong soft-white spotlight, mirroring the dark glow', async ({ browser }) => {
+test('light mode is soft (dim warm paper) with a warm spotlight that still shows', async ({ browser }) => {
   const ctx = await browser.newContext({ colorScheme: 'light' });
   const page = await ctx.newPage();
   await page.goto('./');
-  const glow = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--glow1').trim());
-  const [r, g, b, a] = glow.match(/[\d.]+/g)!.map(Number);
-  expect(Math.min(r, g, b)).toBeGreaterThanOrEqual(240); // near white
-  expect(a).toBeGreaterThanOrEqual(0.85); // clearly visible on the paper background
+  const [glow, bg, panel] = await page.evaluate(() => {
+    const s = getComputedStyle(document.documentElement);
+    return ['--glow1', '--bg', '--panel'].map((v) => s.getPropertyValue(v).trim());
+  });
+  const rgb = (c: string) => c.startsWith('#') ? [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16)) : c.match(/[\d.]+/g)!.map(Number);
+  const lum = (c: string) => {
+    const [r, g, b] = rgb(c).slice(0, 3).map((x) => { x /= 255; return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  expect(lum(bg)).toBeLessThanOrEqual(0.72); // no bright white page
+  expect(lum(panel)).toBeLessThanOrEqual(0.78); // cards don't glare either
+  const [r, g, b, a] = rgb(glow);
+  expect(lum(`#${[r, g, b].map((x) => Math.round(x).toString(16).padStart(2, '0')).join('')}`)).toBeGreaterThan(lum(bg) + 0.1); // spotlight still lighter than the page
+  expect(r).toBeGreaterThan(b); // and warm, not blue-white
+  expect(a).toBeGreaterThanOrEqual(0.6);
   await ctx.close();
 });
 

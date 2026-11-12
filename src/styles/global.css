@@ -18,10 +18,12 @@
   --t-work: #14653f;
   --t-personal: #a02c37;
   /* Warm candle-light spotlight: the soft light-mode mirror of the dark theme's blue glow */
-  --glow1: rgba(246, 238, 224, 0.9);
-  --glow2: rgba(214, 150, 90, 0.14);
-  --glow3: rgba(244, 236, 222, 0.6);
+  --glow1: rgba(253, 247, 236, 1);
+  --glow2: rgba(222, 150, 80, 0.24);
+  --glow3: rgba(252, 245, 233, 0.88);
   --glow-card: rgba(196, 160, 112, 0.45);
+  /* Light-mode spots are larger with a firmer edge so they read on the linen */
+  --spot1: 1150px 760px; --spot2: 860px 640px; --spot3: 760px 620px; --spot-fade: 62%; --sec-spot: 620px;
   --on-accent: #ffffff;
   --body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
@@ -33,6 +35,7 @@
     --bg: #0c1726; --panel: #13223a; --raise: #182b47; --fg: #eaf1f9; --muted: #9fb0c6; --line: #24395a;
     --t-project: #7cc4fa; --t-writing: #ffc266; --t-work: #6fdcae; --t-personal: #ff9a9a;
     --glow1: rgba(84, 166, 255, 0.34); --glow2: rgba(255, 154, 154, 0.1); --glow3: rgba(84, 166, 255, 0.16); --glow-card: rgba(84, 166, 255, 0.3);
+    --spot1: 900px 620px; --spot2: 700px 520px; --spot3: 600px 500px; --spot-fade: 70%; --sec-spot: 460px;
     --on-accent: #06121f;
     color-scheme: dark;
   }
@@ -41,6 +44,7 @@
   --bg: #0c1726; --panel: #13223a; --raise: #182b47; --fg: #eaf1f9; --muted: #9fb0c6; --line: #24395a;
   --t-project: #7cc4fa; --t-writing: #ffc266; --t-work: #6fdcae; --t-personal: #ff9a9a;
   --glow1: rgba(84, 166, 255, 0.34); --glow2: rgba(255, 154, 154, 0.1); --glow3: rgba(84, 166, 255, 0.16); --glow-card: rgba(84, 166, 255, 0.3);
+    --spot1: 900px 620px; --spot2: 700px 520px; --spot3: 600px 500px; --spot-fade: 70%; --sec-spot: 460px;
   --on-accent: #06121f;
   color-scheme: dark;
 }
@@ -53,9 +57,9 @@ body {
   font: 400 1rem/1.6 var(--body);
   color: var(--fg);
   background:
-    radial-gradient(900px 620px at 8% -120px, var(--glow1), transparent 70%),
-    radial-gradient(700px 520px at 75% 120px, var(--glow3), transparent 70%),
-    radial-gradient(600px 500px at 100% 520px, var(--glow2), transparent 70%),
+    radial-gradient(var(--spot1, 900px 620px) at 8% -120px, var(--glow1), transparent var(--spot-fade, 70%)),
+    radial-gradient(var(--spot2, 700px 520px) at 75% 120px, var(--glow3), transparent var(--spot-fade, 70%)),
+    radial-gradient(var(--spot3, 600px 500px) at 100% 520px, var(--glow2), transparent var(--spot-fade, 70%)),
     var(--bg);
   background-repeat: no-repeat;
   -webkit-font-smoothing: antialiased;
@@ -86,8 +90,8 @@ h1, h2, h3 { text-wrap: balance; }
 .glow { position: relative; isolation: isolate; }
 .glow::before {
   content: ''; position: absolute; z-index: -1; pointer-events: none;
-  inset: -80px calc(50% - 50vw) auto; height: 460px;
-  background: radial-gradient(50% 50% at var(--gx, 85%) 50%, var(--glow3), transparent 72%);
+  inset: -80px calc(50% - 50vw) auto; height: var(--sec-spot, 460px);
+  background: radial-gradient(50% 50% at var(--gx, 85%) 50%, var(--glow3), transparent var(--spot-fade, 72%));
 }
 .glow.left::before { --gx: 12%; }
 

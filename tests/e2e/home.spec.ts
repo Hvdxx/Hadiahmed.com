@@ -118,9 +118,11 @@ test('light mode is soft (dim warm paper) with a warm spotlight that still shows
   expect(lum(bg)).toBeLessThanOrEqual(0.72); // no bright white page
   expect(lum(panel)).toBeLessThanOrEqual(0.78); // cards don't glare either
   const [r, g, b, a] = rgb(glow);
-  expect(lum(`#${[r, g, b].map((x) => Math.round(x).toString(16).padStart(2, '0')).join('')}`)).toBeGreaterThan(lum(bg) + 0.1); // spotlight still lighter than the page
+  expect(lum(`#${[r, g, b].map((x) => Math.round(x).toString(16).padStart(2, '0')).join('')}`)).toBeGreaterThan(lum(bg) + 0.18); // spotlight clearly lighter than the page
   expect(r).toBeGreaterThan(b); // and warm, not blue-white
-  expect(a).toBeGreaterThanOrEqual(0.6);
+  expect(a).toBeGreaterThanOrEqual(0.95);
+  const glow3 = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--glow3').trim());
+  expect(rgb(glow3)[3]).toBeGreaterThanOrEqual(0.8); // the spots further down the page show too
   await ctx.close();
 });
 
